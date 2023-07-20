@@ -1,0 +1,22 @@
+.brandname:hover{
+    color: whitesmoke;
+    font-size: 2em;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    cursor: pointer;
+}
+
+.brandname{
+    color: whitesmoke;
+    font-size: 2em;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    cursor: pointer;
+}
+
+.button-style{
+    padding: 0.5em 2em 0.5em 2em;
+}
+
+.navbar-items{
+    text-align: center;
+    font-size: 1.2em;
+}
