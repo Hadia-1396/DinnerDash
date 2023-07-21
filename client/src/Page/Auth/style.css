@@ -1,0 +1,48 @@
+.login-background{
+    background-image: linear-gradient(to bottom right, #bdc3c7, #2c3e50);
+    height: 100vh;
+    overflow: auto;
+}
+
+.inner-div{
+    height: 80vh;
+    width: 60vw;
+    margin-left: 20vw;
+    margin-top: 10vh;
+    background-color: white;
+}
+
+.left-side{
+    background-image: url('../../assets/restaurant.jpg');
+    background-size: cover; 
+}
+
+.side-text{
+    margin-top: 3em;
+    color: white;
+}
+
+.login-form{
+    margin-top: 5em;
+    margin-left: 2em;
+}
+
+.text-fields{
+    border: none;
+    border-bottom: 2px solid rgb(56, 56, 56);
+    padding-left: 10px;
+    padding-bottom: 5px;
+}
+
+.text-fields:focus{
+    outline: none;
+}
+
+.login-button{
+    background-image: linear-gradient(to bottom right,#bdc3c7, #2c3e50);
+    color: whitesmoke;
+    font-weight: 600;
+    padding: 0.5em;
+    padding-left: 2em;
+    padding-right: 2em;
+}
