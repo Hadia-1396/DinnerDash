@@ -15,8 +15,10 @@ const AddItem = ({ products }) => {
   const [url, setUrl] = useState("");
   const [restaurants, setRestaurants] = useState([]);
   const [productsList, setProductsList] = useState([]);
-  const restaurantArray = restaurants?.map((restaurant) => restaurant.name);
-  const productArray = productsList?.map((product) => product.name);
+  const restaurantArray = restaurants?.map(
+    (restaurant, key) => restaurant.name
+  );
+  const productArray = productsList?.map((product, key) => product.name);
 
   useEffect(() => {
     axios
