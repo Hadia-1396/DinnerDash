@@ -25,7 +25,8 @@ const RestuarantItems = () => {
       <div className="row justify-content-end">
         <div className="col-auto">
           <select
-            class="form-select"
+            value=""
+            className="form-select"
             aria-label="Default select example"
             onChange={(e) => handleCategoryChange(e)}
           >
@@ -44,7 +45,7 @@ const RestuarantItems = () => {
       <div className="row mt-5">
         {categorizeItems ? (
           <>
-            {categorizeItems?.map((item) => (
+            {categorizeItems?.map((item, key) => (
               <div className="col-4" key={items._id}>
                 <Item item={item} product={true} />
               </div>
@@ -52,7 +53,7 @@ const RestuarantItems = () => {
           </>
         ) : (
           <>
-            {items?.map((item) => (
+            {items?.map((item, key) => (
               <div className="col-4" key={items._id}>
                 <Item item={item} product={true} />
               </div>

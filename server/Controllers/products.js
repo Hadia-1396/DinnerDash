@@ -1,5 +1,6 @@
 const product = require('../Models/product')
 const restaurant = require('../Models/restaurant.js')
+const order = require('../Models/order.js')
 
 const AddRestaurant =  async (req,res) => {
     const item = req.body;
@@ -62,11 +63,25 @@ const AddItem = async (req,res) => {
     } 
 }
 
+const AddOrder = async (req,res) => {
+    const items = req.body;
+    const newOrder = new order(items);
+    try {
+        await newOrder.save();
+        res.status(200).json(newOrder)
+    } catch (error) {
+        res.status(400).json({message: error.message})        
+    } 
+}
+
+
+
 module.exports = {
     AddRestaurant: AddRestaurant,
     GetList: GetList,
     AddItem: AddItem,
     GetProductList: GetProductList,
     GetRestaurants: GetRestaurants,
-    GetProducts: GetProducts
+    GetProducts: GetProducts,
+    AddOrder: AddOrder,
 }

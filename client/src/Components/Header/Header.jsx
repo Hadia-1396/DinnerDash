@@ -6,6 +6,14 @@ import { useNavigate, Link } from "react-router-dom";
 
 const Header = ({ admin }) => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  const handleLogout = () => {
+    localStorage.removeItem("name");
+    localStorage.removeItem("id");
+    localStorage.removeItem("token");
+    navigate("/auth");
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -30,19 +38,19 @@ const Header = ({ admin }) => {
             <>
               <ul className="navbar-nav navbar-items">
                 <li className="nav-item">
-                  <a className="nav-link active" href="#">
+                  <Link className="nav-link active" to="/">
                     Dashboard
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <Link className="nav-link" to="/restaurant">
                     Restaurants
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">
+                  <Link className="nav-link" to="/">
                     Categories
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </>
@@ -75,9 +83,23 @@ const Header = ({ admin }) => {
             onClick={() => navigate("/cart")}
           />
         )}
-        <button type="buton" className="ms-4 button-style me-4">
-          Login
-        </button>
+        {token ? (
+          <button
+            type="buton"
+            className="ms-4 button-style me-4"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            type="buton"
+            className="ms-4 button-style me-4"
+            onClick={() => navigate("/auth")}
+          >
+            Login
+          </button>
+        )}
       </div>
     </nav>
   );
