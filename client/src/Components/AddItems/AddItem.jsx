@@ -4,35 +4,39 @@ import { useForm } from "react-hook-form";
 
 import "./style.css";
 
-const AddItem = ({ products }) => {
+const AddItem = ({ products, isEdit, id }) => {
   const {
     handleSubmit,
     register,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const [image, setImage] = useState("");
   const [url, setUrl] = useState("");
   const [restaurants, setRestaurants] = useState([]);
-  const [productsList, setProductsList] = useState([]);
-  const restaurantArray = restaurants?.map(
-    (restaurant, key) => restaurant.name
-  );
-  const productArray = productsList?.map((product, key) => product.name);
+  const [error, setError] = useState();
+
+  const userID = localStorage.getItem("id");
 
   useEffect(() => {
+    if (isEdit) {
+      axios
+        .get(process.env.REACT_APP_BASE_URL + `getproduct/${id}`)
+        .then((response) => {
+          console.log(response);
+          setValue("restaurantName", response.data.restaurantName);
+          setValue("status", response.data.status);
+          setValue("name", response.data.name);
+          setValue("description", response.data.description);
+          setValue("price", response.data.price);
+        });
+    }
     axios
-      .get("http://localhost:3000/getlist")
+      .get(process.env.REACT_APP_BASE_URL + "getlist")
       .then((res) => setRestaurants(res.data))
       .catch((err) => console.log(err));
   }, []);
-
-  const fetchNames = (e) => {
-    axios
-      .get(`http://localhost:3000/getproductlist/${e.target.value}`)
-      .then((res) => setProductsList(res.data))
-      .catch((err) => console.log(err));
-  };
 
   function restaurantList() {
     let items = [];
@@ -58,18 +62,69 @@ const AddItem = ({ products }) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          values = Object.assign({ photoURL: data.url }, values);
-          axios
-            .post("http://localhost:3000/additem", values)
-            .then((response) => console.log(response))
-            .catch((error) => console.log(error));
+          if (isEdit) {
+            axios
+              .patch(process.env.REACT_APP_BASE_URL + `updateitem/${id}`, {
+                ...values,
+                photoURL: data.url,
+                userID: userID,
+              })
+              .then((response) => console.log(response))
+              .catch((error) => {
+                if (error.response.status === 400) {
+                  setError(error.response.data.message);
+                } else {
+                  setError("");
+                }
+              });
+          } else {
+            axios
+              .post(process.env.REACT_APP_BASE_URL + "additem", {
+                ...values,
+                photoURL: data.url,
+                userID: userID,
+              })
+              .then((response) => console.log(response))
+              .catch((error) => {
+                if (error.response.status === 400) {
+                  setError(error.response.data.message);
+                } else {
+                  setError("");
+                }
+              });
+          }
         })
         .catch((err) => console.log(err));
     } else {
-      axios
-        .post("http://localhost:3000/additem", values)
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
+      if (isEdit) {
+        axios
+          .post(process.env.REACT_APP_BASE_URL + `updateitem/${id}`, {
+            ...values,
+            userID: userID,
+          })
+          .then((response) => console.log(response))
+          .catch((error) => {
+            if (error.response.status === 400) {
+              setError(error.response.data.message);
+            } else {
+              setError("");
+            }
+          });
+      } else {
+        axios
+          .post(process.env.REACT_APP_BASE_URL + "additem", {
+            ...values,
+            userID: userID,
+          })
+          .then((response) => console.log(response))
+          .catch((error) => {
+            if (error.response.status === 400) {
+              setError(error.response.data.message);
+            } else {
+              setError("");
+            }
+          });
+      }
     }
   };
 
@@ -87,24 +142,36 @@ const AddItem = ({ products }) => {
         .then((data) => {
           values = Object.assign({ photoURL: data.url }, values);
           axios
-            .post("http://localhost:3000/addrestaurant", values)
+            .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values)
             .then((response) => console.log(response))
-            .catch((error) => console.log(error));
+            .catch((error) => {
+              if (error.response.status === 400) {
+                setError(error.response.data.message);
+              } else {
+                setError("");
+              }
+            });
 
           axios
-            .get("http://localhost:3000/getlist")
+            .get(process.env.REACT_APP_BASE_URL + "getlist")
             .then((res) => setRestaurants(res.data))
-            .catch((err) => console.log(err));
+            .catch((error) => {
+              if (error.response.status === 400) {
+                setError(error.response.data.message);
+              } else {
+                setError("");
+              }
+            });
         })
         .catch((err) => console.log(err));
     } else {
       axios
-        .post("http://localhost:3000/addrestaurant", values)
+        .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values)
         .then((response) => console.log(response))
         .catch((error) => console.log(error));
 
       axios
-        .get("http://localhost:3000/getlist")
+        .get(process.env.REACT_APP_BASE_URL + "getlist")
         .then((res) => setRestaurants(res.data))
         .catch((err) => console.log(err));
     }
@@ -115,7 +182,11 @@ const AddItem = ({ products }) => {
       {products ? (
         <>
           <form className="mt-5 mb-5" onSubmit={handleSubmit(onSubmit)}>
-            <h2 className="text-center">Add Item</h2>
+            {isEdit ? (
+              <h2 className="text-center">Edit Item</h2>
+            ) : (
+              <h2 className="text-center">Add Item</h2>
+            )}
 
             <div className="row justify-content-center mt-4 align-items-center">
               <div className="col-2">
@@ -239,7 +310,6 @@ const AddItem = ({ products }) => {
                 <select
                   className="form-select"
                   aria-label="Default select example"
-                  onClick={(e) => fetchNames(e)}
                   {...register("restaurantName", {
                     required: "Restaurant is required",
                   })}
@@ -248,6 +318,31 @@ const AddItem = ({ products }) => {
                     Your Restaurants
                   </option>
                   {restaurantList()}
+                </select>
+                <p className="ms-2 mt-2 warnings">
+                  {errors.restaurantName && errors.restaurantName.message}
+                </p>
+              </div>
+            </div>
+            <div className="row justify-content-center mt-4 align-items-center">
+              <div className="col-2">
+                <label htmlFor="status" className="form-label">
+                  Status
+                </label>
+              </div>
+              <div className="col-6">
+                <select
+                  className="form-select"
+                  aria-label="Default select example"
+                  {...register("status", {
+                    required: "Status is required",
+                  })}
+                >
+                  <option value="" selected disabled>
+                    Select Status
+                  </option>
+                  <option value="in-stock">In Stock</option>
+                  <option value="out-of-stock">Our of Stock</option>
                 </select>
                 <p className="ms-2 mt-2 warnings">
                   {errors.restaurantName && errors.restaurantName.message}
@@ -267,15 +362,11 @@ const AddItem = ({ products }) => {
                   id="name"
                   {...register("name", {
                     required: "Name is required",
-                    validate: {
-                      unique: (v) =>
-                        !productArray.includes(v) ||
-                        "Product name already exists",
-                    },
                   })}
                 />
                 <p className="ms-2 mt-2 warnings">
                   {errors.name && errors.name.message}
+                  {!errors.name && error}
                 </p>
               </div>
             </div>
@@ -365,15 +456,36 @@ const AddItem = ({ products }) => {
                   id="name"
                   {...register("name", {
                     required: "Name is required",
-                    validate: {
-                      unique: (v) =>
-                        !restaurantArray.includes(v) ||
-                        "Restaurant name already exists",
-                    },
                   })}
                 />
                 <p className="ms-2 mt-2 warnings">
                   {errors.name && errors.name.message}
+                  {!errors.name && error}
+                </p>
+              </div>
+            </div>
+            <div className="row justify-content-center mt-5 align-items-center">
+              <div className="col-2">
+                <label htmlFor="shippingfee" className="form-label">
+                  Shipping Fee
+                </label>
+              </div>
+              <div className="col-6">
+                <input
+                  type="text"
+                  className="form-control"
+                  id="shippingfee"
+                  {...register("shippingFee", {
+                    required: "Shipping Fee is required",
+                    pattern: {
+                      value: /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/,
+                      message: "Price should be a decimal number and positive",
+                    },
+                  })}
+                />
+                <p className="ms-2 mt-2 warnings">
+                  {errors.shippingFee && errors.shippingFee.message}
+                  {!errors.shippingFee && error}
                 </p>
               </div>
             </div>
