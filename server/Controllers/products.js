@@ -63,8 +63,29 @@ const GetProducts =  async (req,res) => {
     }
 }
 
+const GetPopularItems =  async (req,res) => {
+    const name = req.paras.name;
+    
+    try {
+        const products = await order.aggregate([
+            {
+                $unwind: '$itemDetails'
+            },
+            {
+                $sortByCount: '$itemDetails'
+            },
+            {
+                $limit: 1
+            }
+        ]).where('restaurantName').eq(name)
+        console.log(products)
+        res.status(200).json(products)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
 const GetProduct =  async (req,res) => {
-    const name = req.params.name;
     const id = req.params.id
     try {
         const products = await product.findById(id);
@@ -169,4 +190,5 @@ module.exports = {
     DeleteItem: DeleteItem,
     GetProduct: GetProduct,
     GetOrder: GetOrder,
+    GetPopularItems: GetPopularItems
 }
