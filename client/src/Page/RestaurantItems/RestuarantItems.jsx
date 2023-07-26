@@ -7,7 +7,10 @@ import Header from "../../Components/Header/Header";
 const RestuarantItems = () => {
   const { name } = useParams();
   let [items] = UseFetch(`getProducts/${name}`);
+  let [popularItems] = UseFetch(`getpopularitems/${name}`);
   const [categorizeItems, setCategorizeItems] = useState();
+
+  console.log(popularItems);
 
   const handleCategoryChange = (e) => {
     const arr = items?.filter((item) => {
@@ -56,11 +59,22 @@ const RestuarantItems = () => {
             </>
           ) : (
             <>
-              {items?.map((item, key) => (
-                <div className="col-4 gy-5" key={items._id}>
-                  <Item item={item} product={"products"} />
-                </div>
-              ))}
+              <div className="row">
+                <h3>Popular Items in Restaurants</h3>
+                {popularItems?.map((item, key) => (
+                  <div className="col-4 gy-5" key={items._id}>
+                    <Item item={item} product={"products"} />
+                  </div>
+                ))}
+              </div>
+              <div className="row mt-5">
+                <h3>Items in Restaurants</h3>
+                {items?.map((item, key) => (
+                  <div className="col-4 gy-5" key={items._id}>
+                    <Item item={item} product={"products"} />
+                  </div>
+                ))}
+              </div>
             </>
           )}
         </div>
