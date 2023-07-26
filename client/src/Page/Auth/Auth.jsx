@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
@@ -7,6 +7,7 @@ import "./style.css";
 
 const Auth = () => {
   const navigate = useNavigate();
+  const { role } = useParams();
   const {
     register,
     handleSubmit,
@@ -20,12 +21,17 @@ const Auth = () => {
   const submit = (values) => {
     if (login) {
       axios
-        .post("http://localhost:3000/auth/signin", values)
+        .post(process.env.REACT_APP_BASE_URL + `auth/signin/${role}`, values)
         .then((response) => {
           localStorage.setItem("id", response.data.existingUser._id);
           localStorage.setItem("name", response.data.existingUser.name);
+          localStorage.setItem("role", response.data.existingUser.role);
           localStorage.setItem("token", response.data.token);
-          navigate("/");
+          if (role === "customer") {
+            navigate("/");
+          } else {
+            navigate("/dashboard");
+          }
         })
         .catch((error) => {
           if (error.response.status === 400) {
@@ -41,7 +47,10 @@ const Auth = () => {
         });
     } else {
       axios
-        .post("http://localhost:3000/auth/signup", values)
+        .post(process.env.REACT_APP_BASE_URL + "auth/signup", {
+          ...values,
+          role,
+        })
         .then((response) => console.log(response))
         .catch((error) => {
           if (error.response.status === 402) {
@@ -75,7 +84,10 @@ const Auth = () => {
             <form className="login-form" onSubmit={handleSubmit(submit)}>
               <h1 className="mb-5">Sign In</h1>
               <span>Please enter your login information or &nbsp;</span>
-              <Link to="/auth" onClick={() => setLogin(false)}>
+              <Link
+                to={{ pathname: `/auth/${role}` }}
+                onClick={() => setLogin(false)}
+              >
                 Click here
               </Link>
               <span>&nbsp; to registration</span> <br />
@@ -111,7 +123,10 @@ const Auth = () => {
             <form className="login-form" onSubmit={handleSubmit(submit)}>
               <h1 className="mb-5">Sign Up</h1>
               <span>Please enter your information or &nbsp;</span>
-              <Link to="/auth" onClick={() => setLogin(true)}>
+              <Link
+                to={{ pathname: `/auth/${role}` }}
+                onClick={() => setLogin(true)}
+              >
                 Click here
               </Link>
               <span>&nbsp; if you already have an account</span> <br />

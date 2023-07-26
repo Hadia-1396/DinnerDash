@@ -6,7 +6,7 @@ const UseFetch = (endpoint) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/" + endpoint)
+      .get(process.env.REACT_APP_BASE_URL + endpoint)
       .then((response) => setItems(response.data))
       .catch((error) => console.log(error));
   }, []);

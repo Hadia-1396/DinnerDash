@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Header from "../../Components/Header/Header";
 
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -66,54 +67,57 @@ const Cart = () => {
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-7">
-          <h1 className="text-center mt-5">Items in Cart</h1>
-          {data?.map((item) => (
-            <div className="card mt-5 pt-4 pb-4 ps-4 pe-4">
-              <div className="row">
-                <div className="col-2">
-                  <img src={item.photoURL} width="100%" height="100%" />
-                </div>
-                <div className="col-8">
-                  <h4>{item.name}</h4>
-                  <p>{item.description}</p>
-                </div>
-                <div className="col-2 text-end">
-                  <p>Rs. {item.price}</p>
-                  <RemoveCircleIcon
-                    className="me-1"
-                    onClick={() => decrementQuantity(item._id, item.quantity)}
-                  />
-                  {item.quantity}
-                  <AddCircleIcon
-                    className="ms-1"
-                    onClick={() => incrementQuanity(item._id, item.quantity)}
-                  />
-                  <br />
-                  <DeleteIcon onClick={() => deleteItem(item._id)} />
+    <>
+      <Header />
+      <div className="container">
+        <div className="row">
+          <div className="col-7">
+            <h1 className="text-center mt-5">Items in Cart</h1>
+            {data?.map((item) => (
+              <div className="card mt-5 pt-4 pb-4 ps-4 pe-4">
+                <div className="row">
+                  <div className="col-2">
+                    <img src={item.photoURL} width="100%" height="100%" />
+                  </div>
+                  <div className="col-8">
+                    <h4>{item.name}</h4>
+                    <p>{item.description}</p>
+                  </div>
+                  <div className="col-2 text-end">
+                    <p>Rs. {item.price}</p>
+                    <RemoveCircleIcon
+                      className="me-1"
+                      onClick={() => decrementQuantity(item._id, item.quantity)}
+                    />
+                    {item.quantity}
+                    <AddCircleIcon
+                      className="ms-1"
+                      onClick={() => incrementQuanity(item._id, item.quantity)}
+                    />
+                    <br />
+                    <DeleteIcon onClick={() => deleteItem(item._id)} />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-          {data && (
-            <div className="row mt-5 justify-content-end">
-              <div className="col-auto">
-                <button className="button-style" onClick={handleCheckout}>
-                  Checkout
-                </button>
+            ))}
+            {data && (
+              <div className="row mt-5 justify-content-end">
+                <div className="col-auto">
+                  <button className="button-style" onClick={handleCheckout}>
+                    Checkout
+                  </button>
+                </div>
+                <div className="col-auto">
+                  <button className="button-style" onClick={clearCart}>
+                    Clear
+                  </button>
+                </div>
               </div>
-              <div className="col-auto">
-                <button className="button-style" onClick={clearCart}>
-                  Clear
-                </button>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

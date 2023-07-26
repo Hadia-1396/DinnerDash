@@ -4,14 +4,16 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import "./style.css";
 import { useNavigate, Link } from "react-router-dom";
 
-const Header = ({ admin }) => {
+const Header = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
   const handleLogout = () => {
     localStorage.removeItem("name");
     localStorage.removeItem("id");
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     navigate("/auth");
   };
 
@@ -34,7 +36,7 @@ const Header = ({ admin }) => {
           className="collapse navbar-collapse justify-content-center"
           id="navbarNavDropdown"
         >
-          {admin ? (
+          {role === "admin" ? (
             <>
               <ul className="navbar-nav navbar-items">
                 <li className="nav-item">
@@ -43,13 +45,13 @@ const Header = ({ admin }) => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/restaurant">
-                    Restaurants
+                  <Link className="nav-link" to="/addrestaurant">
+                    Add-Restaurant
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to="/">
-                    Categories
+                  <Link className="nav-link" to="/profile">
+                    Profile
                   </Link>
                 </li>
               </ul>
@@ -76,7 +78,7 @@ const Header = ({ admin }) => {
             </>
           )}
         </div>
-        {!admin && (
+        {role === "customer" && (
           <ShoppingCartIcon
             fontSize="large"
             style={{ color: "white" }}

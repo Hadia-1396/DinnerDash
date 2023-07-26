@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const user = require('../Models/user')
 
 const AddUser =  async (req,res) => {
-    const {name, email, password, confirmPassword} = req.body;
+    const {name, email, password, confirmPassword, displayName, role} = req.body;
     
     try {
         const existingUser = await user.findOne({email});
@@ -18,7 +18,7 @@ const AddUser =  async (req,res) => {
         
         const hashedPassword = await bcrypt.hash(password, 12)
 
-        const newUser = await user.create({name: name, email: email, password: hashedPassword})
+        const newUser = await user.create({name: name, email: email, password: hashedPassword, displayName: displayName, role: role})
 
         const token = jwt.sign({email: newUser.email, id: newUser._id}, 'test')
 
@@ -30,9 +30,10 @@ const AddUser =  async (req,res) => {
 
 const GetUser = async (req,res) => {
     const {email, password} = req.body;
+    const role = req.params.role
 
     try{
-        const existingUser = await user.findOne({email});
+        const existingUser = await user.findOne({email}).where('role').eq(role);
 
         if(!existingUser) {
             return res.status(404).json({message: "User does not exists"})
@@ -44,7 +45,7 @@ const GetUser = async (req,res) => {
             return res.status(400).json({message: "Your password is incorrect"})
         }
 
-        const token = jwt.sign({email: existingUser, id: existingUser._id}, 'test')
+        const token = jwt.sign({email: existingUser, id: existingUser._id, role: existingUser.role}, 'test')
 
         res.status(200).json({existingUser, token})
     } catch {

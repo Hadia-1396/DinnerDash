@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const restaurantSchema = mongoose.Schema({
     name: String,
+    shippingFee: Number,
     photoURL: String
 })
 
