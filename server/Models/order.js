@@ -6,9 +6,12 @@ const orderSchema = mongoose.Schema({
     mobileNumber: String,
     city: String,
     address: String,
+    restaurantName: String,
     itemDetails: [Object],
     shipping: Number,
     status: String,
+    subTotal: Number,
+    total: Number,
     createdAt: {
         type: Date,
         immutable: true,

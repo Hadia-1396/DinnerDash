@@ -1,5 +1,6 @@
 import React from "react";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import HistoryIcon from "@mui/icons-material/History";
 
 import "./style.css";
 import { useNavigate, Link } from "react-router-dom";
@@ -79,11 +80,20 @@ const Header = () => {
           )}
         </div>
         {role === "customer" && (
-          <ShoppingCartIcon
-            fontSize="large"
-            style={{ color: "white" }}
-            onClick={() => navigate("/cart")}
-          />
+          <>
+            <HistoryIcon
+              fontSize="large"
+              style={{ color: "white" }}
+              className="ms-2 me-2"
+              onClick={() => navigate("/orderhistory")}
+            />
+            <ShoppingCartIcon
+              fontSize="large"
+              className="ms-2 me-2"
+              style={{ color: "white" }}
+              onClick={() => navigate("/cart")}
+            />
+          </>
         )}
         {token ? (
           <button

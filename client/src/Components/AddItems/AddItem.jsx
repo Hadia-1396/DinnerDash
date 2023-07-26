@@ -342,7 +342,7 @@ const AddItem = ({ products, isEdit, id }) => {
                     Select Status
                   </option>
                   <option value="in-stock">In Stock</option>
-                  <option value="out-of-stock">Our of Stock</option>
+                  <option value="out-of-stock">Out of Stock</option>
                 </select>
                 <p className="ms-2 mt-2 warnings">
                   {errors.restaurantName && errors.restaurantName.message}

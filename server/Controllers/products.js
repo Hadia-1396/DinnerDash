@@ -84,6 +84,16 @@ const GetProfile =  async (req,res) => {
     }
 }
 
+const GetOrder =  async (req,res) => {
+    const id = req.params.id;
+    try {
+        const orders = await order.find({userID: id});
+        res.status(200).json(orders)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
 const AddItem = async (req,res) => {
     const item = req.body;
     const name = item.name;
@@ -104,6 +114,7 @@ const AddItem = async (req,res) => {
 const AddOrder = async (req,res) => {
     const items = req.body;
     const newOrder = new order(items);
+
     try {
         await newOrder.save();
         res.status(200).json(newOrder)
@@ -119,11 +130,6 @@ const UpdateItem = async (req,res) => {
 
 
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
-
-    const ID = await product.findOne({id})
-    if(!ID) {
-        return res.status(404).json({message: `No post with ${id} exists`})
-    }
 
     const existingItem = await product.findOne({name}).where('restaurantName').eq(item.restaurantName)
 
@@ -161,5 +167,6 @@ module.exports = {
     GetProfile: GetProfile,
     UpdateItem: UpdateItem,
     DeleteItem: DeleteItem,
-    GetProduct: GetProduct
+    GetProduct: GetProduct,
+    GetOrder: GetOrder
 }

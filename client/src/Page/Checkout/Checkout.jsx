@@ -43,11 +43,19 @@ const Checkout = () => {
       ...values,
       itemDetails: data,
       userID: id,
+      status: "ordered",
+      subTotal: subTotal,
+      total: subTotal + shippingFee,
+      restaurantName: restaurantName,
     };
     axios
       .post(process.env.REACT_APP_BASE_URL + "addorder", orderData)
       .then((response) => console.log(response))
       .catch((error) => console.log(error.message));
+  };
+
+  const clearCart = () => {
+    localStorage.removeItem("cartData");
   };
 
   return (
@@ -210,7 +218,11 @@ const Checkout = () => {
               </div>
               <div className="row justify-content-end mt-4">
                 <div className="col-auto">
-                  <button type="submit" className="button-style">
+                  <button
+                    type="submit"
+                    className="button-style"
+                    onClick={clearCart}
+                  >
                     Place Order
                   </button>
                 </div>
