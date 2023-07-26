@@ -13,6 +13,8 @@ import Error from "./Page/Error/Error";
 import UserRole from "./Page/UserRole/UserRole";
 import Profile from "./Page/Profile/Profile";
 import OrderHistory from "./Page/OrderHistory/OrderHistory";
+import Dashboard from "./Page/Dashboard/Dashboard";
+import OrderDetails from "./Page/OrderDetail/OrderDetails";
 
 function App() {
   return (
@@ -20,7 +22,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />}/>
-          <Route path="/dashboard" element={<Home />}/>
+          <Route path="/dashboard" element={<Dashboard />}/>
           <Route path="/browse" element={<Browse />}/>
           <Route path="/browse/:name" element={<RestuarantItems />}/>
           <Route path="/addrestaurant" element={<AddRestaurant/>}/>
@@ -33,6 +35,7 @@ function App() {
           <Route path="/errorpage" element={<Error/>}/>
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/orderhistory" element={<OrderHistory/>}/>
+          <Route path="/orderdetails/:id" element={<OrderDetails/>}/>
         </Routes>
       <Footer/>
       </BrowserRouter>

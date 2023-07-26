@@ -10,8 +10,6 @@ const RestuarantItems = () => {
   let [popularItems] = UseFetch(`getpopularitems/${name}`);
   const [categorizeItems, setCategorizeItems] = useState();
 
-  console.log(popularItems);
-
   const handleCategoryChange = (e) => {
     const arr = items?.filter((item) => {
       for (const category of item.category) {

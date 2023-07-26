@@ -55,6 +55,7 @@ const Cart = () => {
 
   const clearCart = () => {
     localStorage.removeItem("cartData");
+    localStorage.removeItem("restaurantName");
     setData();
   };
 

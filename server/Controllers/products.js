@@ -123,6 +123,29 @@ const GetOrder =  async (req,res) => {
     }
 }
 
+const GetOrderById =  async (req,res) => {
+    const id = req.params.id;
+    try {
+        const orders = await order.findById(id).populate("itemDetails");
+        res.status(200).json(orders)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
+const GetDashboardOrder =  async (req,res) => {
+    const id = req.params.id;
+    try {
+        const orders = await order.find({}).populate({
+            path: "itemDetails",
+            match: {userID: id}
+        });
+        res.status(200).json(orders)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
 const AddItem = async (req,res) => {
     const item = req.body;
     const name = item.name;
@@ -198,5 +221,7 @@ module.exports = {
     DeleteItem: DeleteItem,
     GetProduct: GetProduct,
     GetOrder: GetOrder,
-    GetPopularItems: GetPopularItems
+    GetPopularItems: GetPopularItems,
+    GetDashboardOrder: GetDashboardOrder,
+    GetOrderById: GetOrderById
 }

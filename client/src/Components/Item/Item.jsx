@@ -28,6 +28,7 @@ const Item = ({ item, product }) => {
         "cartData",
         JSON.stringify([{ ...item, quantity: 1 }])
       );
+      localStorage.setItem("restaurantName", item.restaurantName);
     }
   };
 

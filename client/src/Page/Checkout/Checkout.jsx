@@ -63,6 +63,7 @@ const Checkout = () => {
 
   const clearCart = () => {
     localStorage.removeItem("cartData");
+    localStorage.removeItem("restaurantName");
   };
 
   return (

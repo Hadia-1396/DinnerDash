@@ -1,30 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../../Components/Header/Header";
 import UseFetch from "../../Hooks/UseFetch";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 
-const OrderHistory = () => {
+const Dashboard = () => {
   const id = localStorage.getItem("id");
-  const [items] = UseFetch(`getorder/${id}`);
+  const [items] = UseFetch(`getdashboardorder/${id}`);
   let count = 1;
-
+  console.log(items);
   return (
     <>
       <Header />
       <div className="container mt-5">
-        <h1 className="text-center">Your Past Orders</h1>
+        <h1 className="text-center">Orders</h1>
         <table className="table mt-5">
           <thead>
             <tr>
               <th scope="col">#</th>
               <th scope="col">Items</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Restaurant</th>
-              <th scope="col">Subtotal</th>
-              <th scope="col">Total</th>
-              <th scope="col">Date/Time</th>
               <th scope="col">Status</th>
+              <th scope="col">View Order</th>
+              <th scope="col">Status Transition</th>
             </tr>
           </thead>
           <tbody className="align-middle">
@@ -38,18 +35,25 @@ const OrderHistory = () => {
                     </Link>
                   ))}
                 </td>
-                <td>
-                  {item.quantity?.map((quan) => (
-                    <p>{quan}</p>
-                  ))}
-                </td>
-                <td>{item.restaurantName}</td>
-                <td>{item.subTotal}</td>
-                <td>{item.total}</td>
-                <td>
-                  {format(new Date(item.createdAt), "yyyy-MM-dd/kk:mm:ss")}
-                </td>
                 <td>{item.status}</td>
+                <td>
+                  <Link to={{ pathname: `/orderdetails/${item._id}` }}>
+                    View details
+                  </Link>
+                </td>
+                <td>
+                  {item.status === "ordered" ? (
+                    <>
+                      <Link className="me-2">Cancel</Link>
+                      <Link className="ms-2 me-2">Mark as Paid</Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link className="me-2">Cancel</Link>
+                      <Link className="ms-2 me-2">Mark as Completed</Link>
+                    </>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -59,4 +63,4 @@ const OrderHistory = () => {
   );
 };
 
-export default OrderHistory;
+export default Dashboard;
