@@ -7,7 +7,11 @@ const orderSchema = mongoose.Schema({
     city: String,
     address: String,
     restaurantName: String,
-    itemDetails: [Object],
+    itemDetails: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'product'
+    }],
+    quantity: [Number],
     shipping: Number,
     status: String,
     subTotal: Number,
@@ -23,7 +27,7 @@ const orderSchema = mongoose.Schema({
         default: () => Date.now()
     },
     userID: {
-        type: mongoose.SchemaTypes.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'user'
     }
 })

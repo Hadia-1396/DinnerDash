@@ -87,7 +87,7 @@ const GetProfile =  async (req,res) => {
 const GetOrder =  async (req,res) => {
     const id = req.params.id;
     try {
-        const orders = await order.find({userID: id});
+        const orders = await order.find({userID: id}).populate("itemDetails");
         res.status(200).json(orders)
     } catch (error) {
         res.status(400).json({message: error.message})
@@ -168,5 +168,5 @@ module.exports = {
     UpdateItem: UpdateItem,
     DeleteItem: DeleteItem,
     GetProduct: GetProduct,
-    GetOrder: GetOrder
+    GetOrder: GetOrder,
 }

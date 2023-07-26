@@ -39,10 +39,17 @@ const Checkout = () => {
   };
 
   const submit = (values) => {
+    const itemDetails = [];
+    const quantity = [];
+    for (const item of data) {
+      itemDetails.push(item._id);
+      quantity.push(item.quantity);
+    }
     const orderData = {
       ...values,
-      itemDetails: data,
+      itemDetails: itemDetails,
       userID: id,
+      quantity: quantity,
       status: "ordered",
       subTotal: subTotal,
       total: subTotal + shippingFee,

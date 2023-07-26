@@ -7,12 +7,8 @@ import { format } from "date-fns";
 const OrderHistory = () => {
   const id = localStorage.getItem("id");
   const [items] = UseFetch(`getorder/${id}`);
-  const [formattedDate, setFormattedDate] = useState();
 
-  const calculateDate = (date) => {
-    const NewDate = new Date(date);
-    return NewDate;
-  };
+  console.log(items);
 
   return (
     <>
@@ -44,8 +40,8 @@ const OrderHistory = () => {
                   ))}
                 </td>
                 <td>
-                  {item.itemDetails?.map((itemDetail) => (
-                    <p>{itemDetail.quantity}</p>
+                  {item.quantity?.map((quan) => (
+                    <p>{quan}</p>
                   ))}
                 </td>
                 <td>{item.restaurantName}</td>
