@@ -43,7 +43,10 @@ const Item = ({ item, product }) => {
     <div>
       {product == "products" ? (
         <>
-          <div className="card">
+          <div
+            className="card"
+            onClick={() => navigate(`/productdetails/${item._id}`)}
+          >
             <img src={item.photoURL} className="card-img-top" />
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>

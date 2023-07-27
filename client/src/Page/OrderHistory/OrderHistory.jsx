@@ -33,7 +33,9 @@ const OrderHistory = () => {
                 <th scope="row">{count++}</th>
                 <td>
                   {item.itemDetails?.map((itemDetail) => (
-                    <Link to={{ pathname: `/browse/${item.restaurantName}` }}>
+                    <Link
+                      to={{ pathname: `/productdetails/${itemDetail._id}` }}
+                    >
                       <p>{itemDetail.name}</p>
                     </Link>
                   ))}
