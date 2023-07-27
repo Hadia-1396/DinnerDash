@@ -8,7 +8,6 @@ const OrderDetails = () => {
   const { id } = useParams();
   let count = 1;
   const [item] = UseFetch(`getorderbyid/${id}`);
-  console.log(item);
 
   return (
     <>

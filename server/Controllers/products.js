@@ -202,9 +202,6 @@ const UpdateStatus = async (req,res) => {
     const newStatus = req.body;
     const id= req.params.id;
 
-    console.log(newStatus)
-    console.log(id)
-
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
 
     try {
