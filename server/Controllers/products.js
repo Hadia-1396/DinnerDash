@@ -118,7 +118,7 @@ const GetOrder =  async (req,res) => {
     try {
         const orders = await order.find({userID: id}).populate("itemDetails");
         res.status(200).json(orders)
-        
+
     } catch (error) {
         res.status(400).json({message: error.message})
     }
@@ -198,6 +198,23 @@ const UpdateItem = async (req,res) => {
     } 
 }
 
+const UpdateStatus = async (req,res) => {
+    const newStatus = req.body;
+    const id= req.params.id;
+
+    console.log(newStatus)
+    console.log(id)
+
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
+
+    try {
+        const updatedItem = await order.updateOne({_id: id}, {$set: {status: newStatus.newStatus}})
+        res.status(200).json(updatedItem)
+    } catch (error) {
+        res.status(400).json({message: error.message})        
+    } 
+}
+
 const DeleteItem = async (req,res) => {
     const id = req.params.id;
 
@@ -224,5 +241,6 @@ module.exports = {
     GetOrder: GetOrder,
     GetPopularItems: GetPopularItems,
     GetDashboardOrder: GetDashboardOrder,
-    GetOrderById: GetOrderById
+    GetOrderById: GetOrderById,
+    UpdateStatus: UpdateStatus
 }

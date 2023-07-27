@@ -2,13 +2,22 @@ import React from "react";
 import Header from "../../Components/Header/Header";
 import UseFetch from "../../Hooks/UseFetch";
 import { Link } from "react-router-dom";
-import { format } from "date-fns";
+import axios from "axios";
 
 const Dashboard = () => {
   const id = localStorage.getItem("id");
   const [items] = UseFetch(`getdashboardorder/${id}`);
   let count = 1;
-  console.log(items);
+
+  const changeStatus = (newStatus, _id) => {
+    axios
+      .patch(process.env.REACT_APP_BASE_URL + `updatestatus/${_id}`, {
+        newStatus: newStatus,
+      })
+      .then((res) => window.location.reload())
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <Header />
@@ -44,15 +53,35 @@ const Dashboard = () => {
                 <td>
                   {item.status === "ordered" ? (
                     <>
-                      <Link className="me-2">Cancel</Link>
-                      <Link className="ms-2 me-2">Mark as Paid</Link>
+                      <Link
+                        className="me-2"
+                        onClick={() => changeStatus("cancelled", item._id)}
+                      >
+                        Cancel
+                      </Link>
+                      <Link
+                        className="ms-2 me-2"
+                        onClick={() => changeStatus("paid", item._id)}
+                      >
+                        Mark as Paid
+                      </Link>
                     </>
-                  ) : (
+                  ) : item.status === "paid" ? (
                     <>
-                      <Link className="me-2">Cancel</Link>
-                      <Link className="ms-2 me-2">Mark as Completed</Link>
+                      <Link
+                        className="me-2"
+                        onClick={() => changeStatus("cancelled", item._id)}
+                      >
+                        Cancel
+                      </Link>
+                      <Link
+                        className="ms-2 me-2"
+                        onClick={() => changeStatus("completed", item._id)}
+                      >
+                        Mark as Completed
+                      </Link>
                     </>
-                  )}
+                  ) : null}
                 </td>
               </tr>
             ))}

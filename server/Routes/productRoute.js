@@ -17,5 +17,6 @@ router.get('/getdashboardorder/:id', Controllers.GetDashboardOrder)
 router.get('/getpopularitems/:name', Controllers.GetPopularItems)
 router.get('/getorderbyid/:id', Controllers.GetOrderById)
 router.patch('/updateitem/:id', Controllers.UpdateItem)
+router.patch('/updatestatus/:id', Controllers.UpdateStatus)
 router.delete('/deleteitem/:id', Controllers.DeleteItem)
 module.exports = router
