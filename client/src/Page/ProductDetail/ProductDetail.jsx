@@ -6,8 +6,7 @@ import { useParams } from "react-router-dom";
 const ProductDetail = () => {
   const { id } = useParams();
   const [item] = UseFetch(`getproduct/${id}`);
-
-  console.log(item);
+  const role = localStorage.getItem("role");
 
   return (
     <>
@@ -21,10 +20,12 @@ const ProductDetail = () => {
           <div className="col-5 ms-5">
             <h2>{item?.name}</h2>
             <p className="mt-3">{item?.description}</p>
-            <h5 className="mt-5">Price: &emsp;{item?.price}</h5>
+            <h5 className="mt-5">Price: &emsp;Rs. {item?.price}</h5>
             <h5 className="mt-3">Status: &emsp;{item?.status}</h5>
             <h5 className="mt-3">Restaurant: &emsp;{item?.restaurantName}</h5>
-            <button className="button-style mt-5">Add to Cart</button>
+            {role === "customer" && (
+              <button className="button-style mt-5">Add to Cart</button>
+            )}
           </div>
         </div>
       </div>

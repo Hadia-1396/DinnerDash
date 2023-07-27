@@ -30,7 +30,7 @@ const Profile = () => {
             </button>
           </div>
         </div>
-        <div className="row mt-5">
+        <div className="row">
           {items?.map((item, key) => (
             <div className="col-4 gy-5" key={items._id}>
               <Item item={item} products={"profile"} />

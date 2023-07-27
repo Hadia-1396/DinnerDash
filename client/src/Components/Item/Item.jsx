@@ -80,7 +80,7 @@ const Item = ({ item, product }) => {
         <>
           <div className="card">
             <img src={item.photoURL} className="card-img-top" />
-            <div className="card-body">
+            <div className="card-body mt-2">
               <div className="row justify-content-between">
                 <div className="col-auto">
                   <p className="card-text">Rs. {item.price}</p>
@@ -91,7 +91,7 @@ const Item = ({ item, product }) => {
               </div>
               <p className="card-text">{item.description}</p>
             </div>
-            <div className="row justify-content-end mb-2">
+            <div className="row justify-content-end mb-4 mt-3">
               <div className="col-auto">
                 <button
                   className="button-style ms-2"
