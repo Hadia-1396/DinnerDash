@@ -205,7 +205,7 @@ const UpdateStatus = async (req,res) => {
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
 
     try {
-        const updatedItem = await order.updateOne({_id: id}, {$set: {status: newStatus.newStatus}})
+        const updatedItem = await order.updateOne({_id: id}, {$set: {status: newStatus.newStatus, updatedAt: Date.now()}})
         res.status(200).json(updatedItem)
     } catch (error) {
         res.status(400).json({message: error.message})        

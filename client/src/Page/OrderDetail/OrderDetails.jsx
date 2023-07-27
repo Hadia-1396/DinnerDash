@@ -31,8 +31,34 @@ const OrderDetails = () => {
               )}
             </tr>
             <tr>
-              <th>Order Date</th>
+              <th>Order Time</th>
               {item && <td>{format(new Date(item?.createdAt), "kk:mm:ss")}</td>}
+            </tr>
+            <tr>
+              {item && (
+                <>
+                  {(item.status === "completed" ||
+                    item.status === "cancelled") && (
+                    <>
+                      <th>Order {item.status} Date</th>
+                      <td>{format(new Date(item?.updatedAt), "yyyy-MM-dd")}</td>
+                    </>
+                  )}
+                </>
+              )}
+            </tr>
+            <tr>
+              {item && (
+                <>
+                  {(item.status === "completed" ||
+                    item.status === "cancelled") && (
+                    <>
+                      <th>Order {item.status} Time</th>
+                      <td>{format(new Date(item?.updatedAt), "kk:mm:ss")}</td>
+                    </>
+                  )}
+                </>
+              )}
             </tr>
             <tr>
               <th>Total Price</th>

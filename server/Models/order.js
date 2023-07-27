@@ -23,7 +23,6 @@ const orderSchema = mongoose.Schema({
     },
     updatedAt: {
         type: Date,
-        immutable: true,
         default: () => Date.now()
     },
     userID: {
