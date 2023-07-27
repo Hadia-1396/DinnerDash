@@ -46,7 +46,7 @@ const RestuarantItems = () => {
             </select>
           </div>
         </div>
-        <div className="row mt-5">
+        <div className="row mt-5 mb-4">
           {categorizeItems ? (
             <>
               {categorizeItems?.map((item, key) => (
@@ -65,7 +65,7 @@ const RestuarantItems = () => {
                   </div>
                 ))}
               </div>
-              <div className="row mt-5">
+              <div className="row mt-5 mb-4">
                 <h3>Items in Restaurants</h3>
                 {items?.map((item, key) => (
                   <div className="col-4 gy-5" key={items._id}>

@@ -8,6 +8,31 @@ const ProductDetail = () => {
   const [item] = UseFetch(`getproduct/${id}`);
   const role = localStorage.getItem("role");
 
+  const addToCart = () => {
+    let isExisted = false;
+    if (localStorage.getItem("cartData")) {
+      let newArray = JSON.parse(localStorage.getItem("cartData"));
+      newArray.forEach((element) => {
+        if (element._id === item._id) {
+          isExisted = true;
+        } else if (element.restaurantName !== item.restaurantName) {
+          isExisted = true;
+        }
+      });
+      if (isExisted) {
+        return;
+      }
+      newArray.push({ ...item, quantity: 1 });
+      localStorage.setItem("cartData", JSON.stringify(newArray));
+    } else {
+      localStorage.setItem(
+        "cartData",
+        JSON.stringify([{ ...item, quantity: 1 }])
+      );
+      localStorage.setItem("restaurantName", item.restaurantName);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -24,7 +49,9 @@ const ProductDetail = () => {
             <h5 className="mt-3">Status: &emsp;{item?.status}</h5>
             <h5 className="mt-3">Restaurant: &emsp;{item?.restaurantName}</h5>
             {role === "customer" && (
-              <button className="button-style mt-5">Add to Cart</button>
+              <button className="button-style mt-5" onClick={addToCart}>
+                Add to Cart
+              </button>
             )}
           </div>
         </div>

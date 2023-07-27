@@ -14,7 +14,7 @@ const OrderHistory = () => {
       <Header />
       <div className="container mt-5">
         <h1 className="text-center">Your Past Orders</h1>
-        <table className="table mt-5">
+        <table className="table table-striped mt-5">
           <thead>
             <tr>
               <th scope="col">#</th>

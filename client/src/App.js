@@ -1,6 +1,5 @@
 import  React  from "react";
 import Footer from "../src/Components/Footer/Footer";
-import Home from "../src/Page/Home/Home";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import AddRestaurant from "./Page/AddRestaurants/AddRestaurant";
 import AddProduct from "./Page/AddProducts/AddProduct";
@@ -23,9 +22,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />}/>
+          <Route path="/" element={<Browse />}/>
           <Route path="/dashboard" element={<Dashboard />}/>
-          <Route path="/browse" element={<Browse />}/>
           <Route path="/browse/:name" element={<RestuarantItems />}/>
           <Route path="/addrestaurant" element={<AddRestaurant/>}/>
           <Route path="/addproduct" element={<AddProduct/>}/>
