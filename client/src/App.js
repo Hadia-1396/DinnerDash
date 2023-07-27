@@ -16,6 +16,7 @@ import OrderHistory from "./Page/OrderHistory/OrderHistory";
 import Dashboard from "./Page/Dashboard/Dashboard";
 import OrderDetails from "./Page/OrderDetail/OrderDetails";
 import ProductDetail from "./Page/ProductDetail/ProductDetail";
+import ManageCategory from "./Page/ManageCategory/ManageCategory";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="/orderhistory" element={<OrderHistory/>}/>
           <Route path="/orderdetails/:id" element={<OrderDetails/>}/>
           <Route path="/productdetails/:id" element={<ProductDetail/>}/>
+          <Route path="/managecategory/:id" element={<ManageCategory/>}/>
         </Routes>
       <Footer/>
       </BrowserRouter>

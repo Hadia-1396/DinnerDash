@@ -96,6 +96,14 @@ const Item = ({ item, product }) => {
                 <button
                   className="button-style ms-2"
                   onClick={() => {
+                    navigate(`/managecategory/${item._id}`);
+                  }}
+                >
+                  Edit Category
+                </button>
+                <button
+                  className="button-style ms-2"
+                  onClick={() => {
                     navigate(`/addproduct/${item._id}`, {
                       state: {
                         isEdit: true,

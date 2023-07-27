@@ -13,7 +13,6 @@ const AddItem = ({ products, isEdit, id }) => {
   } = useForm();
 
   const [image, setImage] = useState("");
-  const [url, setUrl] = useState("");
   const [restaurants, setRestaurants] = useState([]);
   const [error, setError] = useState();
 
@@ -185,120 +184,122 @@ const AddItem = ({ products, isEdit, id }) => {
             {isEdit ? (
               <h2 className="text-center">Edit Item</h2>
             ) : (
-              <h2 className="text-center">Add Item</h2>
+              <>
+                <h2 className="text-center">Add Item</h2>
+
+                <div className="row justify-content-center mt-4 align-items-center">
+                  <div className="col-2">
+                    <label htmlFor="restaurant" className="form-label">
+                      Choose Category
+                    </label>
+                  </div>
+                  <div className="col-6">
+                    <div className="row mt-2">
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="fast food"
+                          id="flexCheckDefault"
+                          {...register("category")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          Fast Food
+                        </label>
+                      </div>
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="desi"
+                          id="flexCheckDefault"
+                          {...register("category")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          Desi
+                        </label>
+                      </div>
+                    </div>
+                    <div className="row mt-2">
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="chinese"
+                          id="flexCheckDefault"
+                          {...register("category")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          Chinese
+                        </label>
+                      </div>
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="startups"
+                          id="flexCheckDefault"
+                          {...register("category")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          startups
+                        </label>
+                      </div>
+                    </div>
+                    <div className="row mt-2">
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="small plate"
+                          id="flexCheckDefault"
+                          {...register("category")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          small plate
+                        </label>
+                      </div>
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="large plate"
+                          id="flexCheckDefault"
+                          {...register("category", {
+                            required: "Please select atleast one category",
+                          })}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          large plate
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="ms-2 mt-2 warnings">
+                    {errors.category && errors.category.message}
+                  </p>
+                </div>
+              </>
             )}
-
-            <div className="row justify-content-center mt-4 align-items-center">
-              <div className="col-2">
-                <label htmlFor="restaurant" className="form-label">
-                  Choose Category
-                </label>
-              </div>
-              <div className="col-6">
-                <div className="row mt-2">
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="fast food"
-                      id="flexCheckDefault"
-                      {...register("category")}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Fast Food
-                    </label>
-                  </div>
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="desi"
-                      id="flexCheckDefault"
-                      {...register("category")}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Desi
-                    </label>
-                  </div>
-                </div>
-                <div className="row mt-2">
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="chinese"
-                      id="flexCheckDefault"
-                      {...register("category")}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Chinese
-                    </label>
-                  </div>
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="startups"
-                      id="flexCheckDefault"
-                      {...register("category")}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      startups
-                    </label>
-                  </div>
-                </div>
-                <div className="row mt-2">
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="small plate"
-                      id="flexCheckDefault"
-                      {...register("category")}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      small plate
-                    </label>
-                  </div>
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="large plate"
-                      id="flexCheckDefault"
-                      {...register("category", {
-                        required: "Please select atleast one category",
-                      })}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      large plate
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <p className="ms-2 mt-2 warnings">
-                {errors.category && errors.category.message}
-              </p>
-            </div>
 
             <div className="row justify-content-center mt-4 align-items-center">
               <div className="col-2">

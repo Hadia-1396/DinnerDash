@@ -212,6 +212,19 @@ const UpdateStatus = async (req,res) => {
     } 
 }
 
+const UpdateCategory = async (req,res) => {
+    const newCategory = req.body;
+    const id= req.params.id;
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
+
+    try {
+        const updatedItem = await product.updateOne({_id: id}, {$set: {category: newCategory.categoryArray}})
+        res.status(200).json(updatedItem)
+    } catch (error) {
+        res.status(400).json({message: error.message})        
+    } 
+}
+
 const DeleteItem = async (req,res) => {
     const id = req.params.id;
 
@@ -239,5 +252,6 @@ module.exports = {
     GetPopularItems: GetPopularItems,
     GetDashboardOrder: GetDashboardOrder,
     GetOrderById: GetOrderById,
-    UpdateStatus: UpdateStatus
+    UpdateStatus: UpdateStatus,
+    UpdateCategory: UpdateCategory
 }
