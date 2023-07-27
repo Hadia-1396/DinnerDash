@@ -41,7 +41,7 @@ const Header = () => {
             <>
               <ul className="navbar-nav navbar-items">
                 <li className="nav-item">
-                  <Link className="nav-link active" to="/">
+                  <Link className="nav-link active" to="/dashboard">
                     Dashboard
                   </Link>
                 </li>
