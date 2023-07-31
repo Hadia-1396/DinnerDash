@@ -6,7 +6,8 @@ const UserRole = () => {
 
   return (
     <div className="login-background">
-      <div className="row justify-content-center" style={{ marginTop: "25%" }}>
+      <div className="row justify-content-center" style={{ marginTop: "20%" }}>
+        <h1 className="text-center mb-5">What is your role?</h1>
         <div className="col-auto">
           <button
             type="button"
