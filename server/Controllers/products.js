@@ -64,10 +64,13 @@ const GetProducts =  async (req,res) => {
 }
 
 const GetPopularItems =  async (req,res) => {
-    const name = req.paras.name;
-    
+    const name = req.params.name;
+
     try {
-        const products = await order.aggregate([
+        const count_products = await order.aggregate([
+            {
+                $match: {restaurantName: name}
+            },
             {
                 $unwind: '$itemDetails'
             },
@@ -76,9 +79,14 @@ const GetPopularItems =  async (req,res) => {
             },
             {
                 $limit: 1
-            }
-        ]).where('restaurantName').eq(name)
-        console.log(products)
+            },
+        ])
+        const idArray = count_products.map((item) => {
+           return item._id.toString()
+        })
+        const products = await product.find({
+            _id: {$in: idArray}
+        })
         res.status(200).json(products)
     } catch (error) {
         res.status(400).json({message: error.message})
