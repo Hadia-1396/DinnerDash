@@ -12,6 +12,7 @@ import Auth from "./Page/Auth/Auth";
 import Error from "./Page/Error/Error";
 import UserRole from "./Page/UserRole/UserRole";
 import Profile from "./Page/Profile/Profile";
+import OrderHistory from "./Page/OrderHistory/OrderHistory";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
           <Route path="/auth" element={<UserRole/>}/>
           <Route path="/errorpage" element={<Error/>}/>
           <Route path="/profile" element={<Profile/>}/>
+          <Route path="/orderhistory" element={<OrderHistory/>}/>
         </Routes>
       <Footer/>
       </BrowserRouter>

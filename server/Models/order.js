@@ -6,9 +6,16 @@ const orderSchema = mongoose.Schema({
     mobileNumber: String,
     city: String,
     address: String,
-    itemDetails: [Object],
+    restaurantName: String,
+    itemDetails: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'product'
+    }],
+    quantity: [Number],
     shipping: Number,
     status: String,
+    subTotal: Number,
+    total: Number,
     createdAt: {
         type: Date,
         immutable: true,
@@ -20,7 +27,7 @@ const orderSchema = mongoose.Schema({
         default: () => Date.now()
     },
     userID: {
-        type: mongoose.SchemaTypes.ObjectId,
+        type: mongoose.Types.ObjectId,
         ref: 'user'
     }
 })

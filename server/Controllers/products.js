@@ -63,8 +63,37 @@ const GetProducts =  async (req,res) => {
     }
 }
 
-const GetProduct =  async (req,res) => {
+const GetPopularItems =  async (req,res) => {
     const name = req.params.name;
+
+    try {
+        const count_products = await order.aggregate([
+            {
+                $match: {restaurantName: name}
+            },
+            {
+                $unwind: '$itemDetails'
+            },
+            {
+                $sortByCount: '$itemDetails'
+            },
+            {
+                $limit: 1
+            },
+        ])
+        const idArray = count_products.map((item) => {
+           return item._id.toString()
+        })
+        const products = await product.find({
+            _id: {$in: idArray}
+        })
+        res.status(200).json(products)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
+const GetProduct =  async (req,res) => {
     const id = req.params.id
     try {
         const products = await product.findById(id);
@@ -79,6 +108,16 @@ const GetProfile =  async (req,res) => {
     try {
         const products = await product.find({userID: id});
         res.status(200).json(products)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
+const GetOrder =  async (req,res) => {
+    const id = req.params.id;
+    try {
+        const orders = await order.find({userID: id}).populate("itemDetails");
+        res.status(200).json(orders)
     } catch (error) {
         res.status(400).json({message: error.message})
     }
@@ -104,6 +143,7 @@ const AddItem = async (req,res) => {
 const AddOrder = async (req,res) => {
     const items = req.body;
     const newOrder = new order(items);
+
     try {
         await newOrder.save();
         res.status(200).json(newOrder)
@@ -119,11 +159,6 @@ const UpdateItem = async (req,res) => {
 
 
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
-
-    const ID = await product.findOne({id})
-    if(!ID) {
-        return res.status(404).json({message: `No post with ${id} exists`})
-    }
 
     const existingItem = await product.findOne({name}).where('restaurantName').eq(item.restaurantName)
 
@@ -161,5 +196,7 @@ module.exports = {
     GetProfile: GetProfile,
     UpdateItem: UpdateItem,
     DeleteItem: DeleteItem,
-    GetProduct: GetProduct
+    GetProduct: GetProduct,
+    GetOrder: GetOrder,
+    GetPopularItems: GetPopularItems
 }

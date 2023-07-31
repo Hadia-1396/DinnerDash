@@ -52,7 +52,9 @@ const Item = ({ item, product }) => {
                   <p className="card-text">Rs. {item.price}</p>
                 </div>
                 <div className="col-auto">
-                  <ShoppingCartIcon onClick={addToCart} />
+                  {item.status === "in-stock" && (
+                    <ShoppingCartIcon onClick={addToCart} />
+                  )}
                 </div>
               </div>
             </div>

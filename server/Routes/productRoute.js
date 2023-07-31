@@ -12,6 +12,8 @@ router.get('/getProducts/:name', Controllers.GetProducts)
 router.get('/shippingfee/:name', Controllers.GetShippingFee)
 router.get('/getprofile/:id', Controllers.GetProfile)
 router.get('/getproduct/:id', Controllers.GetProduct)
+router.get('/getorder/:id', Controllers.GetOrder)
+router.get('/getpopularitems/:name', Controllers.GetPopularItems)
 router.patch('/updateitem/:id', Controllers.UpdateItem)
 router.delete('/deleteitem/:id', Controllers.DeleteItem)
 module.exports = router
