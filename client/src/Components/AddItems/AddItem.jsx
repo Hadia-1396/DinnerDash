@@ -10,6 +10,7 @@ const AddItem = ({ products, isEdit, id }) => {
     register,
     formState: { errors },
     setValue,
+    reset,
   } = useForm();
 
   const [image, setImage] = useState("");
@@ -17,6 +18,20 @@ const AddItem = ({ products, isEdit, id }) => {
   const [error, setError] = useState();
 
   const userID = localStorage.getItem("id");
+
+  const restaurantInitialValue = {
+    name: "",
+    shippingFee: "",
+  };
+
+  const productInitialValue = {
+    category: "",
+    restaurantName: "",
+    status: "",
+    name: "",
+    description: "",
+    price: "",
+  };
 
   useEffect(() => {
     if (isEdit) {
@@ -68,7 +83,10 @@ const AddItem = ({ products, isEdit, id }) => {
                 photoURL: data.url,
                 userID: userID,
               })
-              .then((response) => console.log(response))
+              .then((response) => {
+                console.log(response);
+                reset(productInitialValue);
+              })
               .catch((error) => {
                 if (error.response.status === 400) {
                   setError(error.response.data.message);
@@ -83,7 +101,10 @@ const AddItem = ({ products, isEdit, id }) => {
                 photoURL: data.url,
                 userID: userID,
               })
-              .then((response) => console.log(response))
+              .then((response) => {
+                console.log(response);
+                reset(productInitialValue);
+              })
               .catch((error) => {
                 if (error.response.status === 400) {
                   setError(error.response.data.message);
@@ -101,7 +122,10 @@ const AddItem = ({ products, isEdit, id }) => {
             ...values,
             userID: userID,
           })
-          .then((response) => console.log(response))
+          .then((response) => {
+            console.log(response);
+            reset(productInitialValue);
+          })
           .catch((error) => {
             if (error.response.status === 400) {
               setError(error.response.data.message);
@@ -115,7 +139,10 @@ const AddItem = ({ products, isEdit, id }) => {
             ...values,
             userID: userID,
           })
-          .then((response) => console.log(response))
+          .then((response) => {
+            console.log(response);
+            reset(productInitialValue);
+          })
           .catch((error) => {
             if (error.response.status === 400) {
               setError(error.response.data.message);
@@ -142,7 +169,12 @@ const AddItem = ({ products, isEdit, id }) => {
           values = Object.assign({ photoURL: data.url }, values);
           axios
             .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values)
-            .then((response) => console.log(response))
+            .then((response) => {
+              console.log(response);
+              reset(restaurantInitialValue);
+              setError("");
+              setImage("");
+            })
             .catch((error) => {
               if (error.response.status === 400) {
                 setError(error.response.data.message);
@@ -166,7 +198,12 @@ const AddItem = ({ products, isEdit, id }) => {
     } else {
       axios
         .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values)
-        .then((response) => console.log(response))
+        .then((response) => {
+          console.log(response);
+          reset(restaurantInitialValue);
+          setError("");
+          setImage("");
+        })
         .catch((error) => console.log(error));
 
       axios
@@ -486,7 +523,6 @@ const AddItem = ({ products, isEdit, id }) => {
                 />
                 <p className="ms-2 mt-2 warnings">
                   {errors.shippingFee && errors.shippingFee.message}
-                  {!errors.shippingFee && error}
                 </p>
               </div>
             </div>

@@ -12,7 +12,16 @@ const Auth = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
+
+  const initialValue = {
+    name: "",
+    displayName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  };
 
   const [emailError, setEmailError] = useState();
   const [passwordError, setPasswordError] = useState();
@@ -27,6 +36,10 @@ const Auth = () => {
           localStorage.setItem("name", response.data.existingUser.name);
           localStorage.setItem("role", response.data.existingUser.role);
           localStorage.setItem("token", response.data.token);
+          reset(initialValue);
+          setEmailError("");
+          setPasswordError("");
+
           if (role === "customer") {
             navigate("/");
           } else {
@@ -51,7 +64,12 @@ const Auth = () => {
           ...values,
           role,
         })
-        .then((response) => console.log(response))
+        .then((response) => {
+          console.log(response);
+          reset(initialValue);
+          setEmailError("");
+          setPasswordError("");
+        })
         .catch((error) => {
           if (error.response.status === 402) {
             setPasswordError(error.response.data.message);

@@ -39,47 +39,51 @@ const ManageCategory = () => {
   return (
     <>
       <Header />
-      <div className="container mt-5">
-        <div className="card pt-4 ps-5">
-          <div className="row">
-            <h1 className="text-center">Manage Categories</h1>
-          </div>
-          <div className="row">
-            <div className="col-auto">
-              <h3 className="mt-3">Product Categories</h3>
+      <div className="container mt-5 ">
+        <div className="row">
+          <div className="col-8 offset-2">
+            <div className="card pt-4 ps-5">
+              <h1 className="text-center">Manage Categories</h1>
               <div className="row">
                 <div className="col-auto">
-                  <select
-                    value=""
-                    className="form-select"
-                    aria-label="Default select example"
-                    onChange={(e) => addCategory(e.target.value)}
-                  >
-                    <option selected value="">
-                      Add a category
-                    </option>
-                    <option value="fast food">fast food</option>
-                    <option value="desi">desi</option>
-                    <option value="chinese">chinese</option>
-                    <option value="startups">startups</option>
-                    <option value="small plate">small plate</option>
-                    <option value="large plate">large plate</option>
-                  </select>
-                </div>
-              </div>
-              <div className="row">
-                {items?.category.map((item) => (
-                  <div className="col-auto">
-                    <span class="badge bg-secondary p-2 ps-3 pe-2">
-                      {item}{" "}
-                      <CloseIcon
-                        className="ms-2"
-                        onClick={() => removeCategory(item)}
-                      />
-                    </span>
+                  <h3 className="mt-5">Add a Category to Product</h3>
+                  <div className="row mt-3">
+                    <div className="col-auto">
+                      <select
+                        value=""
+                        className="form-select"
+                        aria-label="Default select example"
+                        onChange={(e) => addCategory(e.target.value)}
+                      >
+                        <option selected value="">
+                          Add a category
+                        </option>
+                        <option value="fast food">fast food</option>
+                        <option value="desi">desi</option>
+                        <option value="chinese">chinese</option>
+                        <option value="startups">startups</option>
+                        <option value="small plate">small plate</option>
+                        <option value="large plate">large plate</option>
+                      </select>
+                    </div>
                   </div>
-                ))}
-              </div>
+
+                  <div className="row mb-5">
+                    <h3 className="mt-5 mb-3">Product Categories</h3>
+                    {items?.category.map((item) => (
+                      <div className="col-auto">
+                        <span class="badge bg-secondary p-2 ps-3 pe-2">
+                          {item}{" "}
+                          <CloseIcon
+                            className="ms-2"
+                            onClick={() => removeCategory(item)}
+                          />
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>{" "}
             </div>
           </div>
         </div>

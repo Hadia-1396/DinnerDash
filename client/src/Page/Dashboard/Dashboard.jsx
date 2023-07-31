@@ -51,141 +51,161 @@ const Dashboard = () => {
             </select>
           </div>
         </div>
-        {statusItems ? (
-          <table className="table mt-5">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Items</th>
-                <th scope="col">Status</th>
-                <th scope="col">View Order</th>
-                <th scope="col">Status Transition</th>
-              </tr>
-            </thead>
-            <tbody className="align-middle">
-              {statusItems?.map((item, key) => (
-                <tr key={item._id}>
-                  <th scope="row">{count++}</th>
-                  <td>
-                    {item.itemDetails?.map((itemDetail) => (
-                      <Link
-                        to={{ pathname: `/productdetails/${itemDetail._id}` }}
-                      >
-                        <p>{itemDetail.name}</p>
-                      </Link>
-                    ))}
-                  </td>
-                  <td>{item.status}</td>
-                  <td>
-                    <Link to={{ pathname: `/orderdetails/${item._id}` }}>
-                      View details
-                    </Link>
-                  </td>
-                  <td>
-                    {item.status === "ordered" ? (
-                      <>
-                        <Link
-                          className="me-2"
-                          onClick={() => changeStatus("cancelled", item._id)}
-                        >
-                          Cancel
+        <div className="row">
+          <div className="col-8 offset-2">
+            {statusItems ? (
+              <table className="table table-striped mt-5">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">View Order</th>
+                    <th scope="col">Status Transition</th>
+                  </tr>
+                </thead>
+                <tbody className="align-middle">
+                  {statusItems?.map((item, key) => (
+                    <tr key={item._id}>
+                      <th scope="row">{count++}</th>
+                      <td>
+                        {item.itemDetails?.map((itemDetail) => (
+                          <Link
+                            to={{
+                              pathname: `/productdetails/${itemDetail._id}`,
+                            }}
+                          >
+                            <p>{itemDetail.name}</p>
+                          </Link>
+                        ))}
+                      </td>
+                      <td>{item.status}</td>
+                      <td>
+                        <Link to={{ pathname: `/orderdetails/${item._id}` }}>
+                          View details
                         </Link>
-                        <Link
-                          className="ms-2 me-2"
-                          onClick={() => changeStatus("paid", item._id)}
-                        >
-                          Mark as Paid
+                      </td>
+                      <td>
+                        {item.status === "ordered" ? (
+                          <>
+                            <Link
+                              className="me-2"
+                              onClick={() =>
+                                changeStatus("cancelled", item._id)
+                              }
+                            >
+                              Cancel
+                            </Link>
+                            <Link
+                              className="ms-2 me-2"
+                              onClick={() => changeStatus("paid", item._id)}
+                            >
+                              Mark as Paid
+                            </Link>
+                          </>
+                        ) : item.status === "paid" ? (
+                          <>
+                            <Link
+                              className="me-2"
+                              onClick={() =>
+                                changeStatus("cancelled", item._id)
+                              }
+                            >
+                              Cancel
+                            </Link>
+                            <Link
+                              className="ms-2 me-2"
+                              onClick={() =>
+                                changeStatus("completed", item._id)
+                              }
+                            >
+                              Mark as Completed
+                            </Link>
+                          </>
+                        ) : null}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <table className="table table-striped mt-5">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Items</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">View Order</th>
+                    <th scope="col">Status Transition</th>
+                  </tr>
+                </thead>
+                <tbody className="align-middle">
+                  {items?.map((item, key) => (
+                    <tr key={item._id}>
+                      <th scope="row">{count++}</th>
+                      <td>
+                        {item.itemDetails?.map((itemDetail) => (
+                          <Link
+                            to={{
+                              pathname: `/productdetails/${itemDetail._id}`,
+                            }}
+                          >
+                            <p>{itemDetail.name}</p>
+                          </Link>
+                        ))}
+                      </td>
+                      <td>{item.status}</td>
+                      <td>
+                        <Link to={{ pathname: `/orderdetails/${item._id}` }}>
+                          View details
                         </Link>
-                      </>
-                    ) : item.status === "paid" ? (
-                      <>
-                        <Link
-                          className="me-2"
-                          onClick={() => changeStatus("cancelled", item._id)}
-                        >
-                          Cancel
-                        </Link>
-                        <Link
-                          className="ms-2 me-2"
-                          onClick={() => changeStatus("completed", item._id)}
-                        >
-                          Mark as Completed
-                        </Link>
-                      </>
-                    ) : null}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <table className="table mt-5">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Items</th>
-                <th scope="col">Status</th>
-                <th scope="col">View Order</th>
-                <th scope="col">Status Transition</th>
-              </tr>
-            </thead>
-            <tbody className="align-middle">
-              {items?.map((item, key) => (
-                <tr key={item._id}>
-                  <th scope="row">{count++}</th>
-                  <td>
-                    {item.itemDetails?.map((itemDetail) => (
-                      <Link
-                        to={{ pathname: `/productdetails/${itemDetail._id}` }}
-                      >
-                        <p>{itemDetail.name}</p>
-                      </Link>
-                    ))}
-                  </td>
-                  <td>{item.status}</td>
-                  <td>
-                    <Link to={{ pathname: `/orderdetails/${item._id}` }}>
-                      View details
-                    </Link>
-                  </td>
-                  <td>
-                    {item.status === "ordered" ? (
-                      <>
-                        <Link
-                          className="me-2"
-                          onClick={() => changeStatus("cancelled", item._id)}
-                        >
-                          Cancel
-                        </Link>
-                        <Link
-                          className="ms-2 me-2"
-                          onClick={() => changeStatus("paid", item._id)}
-                        >
-                          Mark as Paid
-                        </Link>
-                      </>
-                    ) : item.status === "paid" ? (
-                      <>
-                        <Link
-                          className="me-2"
-                          onClick={() => changeStatus("cancelled", item._id)}
-                        >
-                          Cancel
-                        </Link>
-                        <Link
-                          className="ms-2 me-2"
-                          onClick={() => changeStatus("completed", item._id)}
-                        >
-                          Mark as Completed
-                        </Link>
-                      </>
-                    ) : null}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+                      </td>
+                      <td>
+                        {item.status === "ordered" ? (
+                          <>
+                            <Link
+                              className="me-2"
+                              onClick={() =>
+                                changeStatus("cancelled", item._id)
+                              }
+                            >
+                              Cancel
+                            </Link>
+                            <Link
+                              className="ms-2 me-2"
+                              onClick={() => changeStatus("paid", item._id)}
+                            >
+                              Mark as Paid
+                            </Link>
+                          </>
+                        ) : item.status === "paid" ? (
+                          <>
+                            <Link
+                              className="me-2"
+                              onClick={() =>
+                                changeStatus("cancelled", item._id)
+                              }
+                            >
+                              Cancel
+                            </Link>
+                            <Link
+                              className="ms-2 me-2"
+                              onClick={() =>
+                                changeStatus("completed", item._id)
+                              }
+                            >
+                              Mark as Completed
+                            </Link>
+                          </>
+                        ) : null}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
       </div>
     </>
   );
