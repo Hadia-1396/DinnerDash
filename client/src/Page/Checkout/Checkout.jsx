@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../Components/Header/Header";
 
 const Checkout = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState();
   const [subTotal, setSubTotal] = useState();
   const restaurantName = localStorage.getItem("restaurantName");
@@ -57,12 +59,16 @@ const Checkout = () => {
     };
     axios
       .post(process.env.REACT_APP_BASE_URL + "addorder", orderData)
-      .then((response) => console.log(response))
+      .then((response) => {
+        console.log(response);
+        navigate("/");
+      })
       .catch((error) => console.log(error.message));
   };
 
   const clearCart = () => {
     localStorage.removeItem("cartData");
+    localStorage.removeItem("restaurantName");
   };
 
   return (

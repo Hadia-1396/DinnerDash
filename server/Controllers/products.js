@@ -118,6 +118,30 @@ const GetOrder =  async (req,res) => {
     try {
         const orders = await order.find({userID: id}).populate("itemDetails");
         res.status(200).json(orders)
+
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
+const GetOrderById =  async (req,res) => {
+    const id = req.params.id;
+    try {
+        const orders = await order.findById(id).populate("itemDetails");
+        res.status(200).json(orders)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
+const GetDashboardOrder =  async (req,res) => {
+    const id = req.params.id;
+    try {
+        const orders = await order.find({}).populate({
+            path: "itemDetails",
+            match: {userID: id}
+        });
+        res.status(200).json(orders)
     } catch (error) {
         res.status(400).json({message: error.message})
     }
@@ -174,6 +198,33 @@ const UpdateItem = async (req,res) => {
     } 
 }
 
+const UpdateStatus = async (req,res) => {
+    const newStatus = req.body;
+    const id= req.params.id;
+
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
+
+    try {
+        const updatedItem = await order.updateOne({_id: id}, {$set: {status: newStatus.newStatus, updatedAt: Date.now()}})
+        res.status(200).json(updatedItem)
+    } catch (error) {
+        res.status(400).json({message: error.message})        
+    } 
+}
+
+const UpdateCategory = async (req,res) => {
+    const newCategory = req.body;
+    const id= req.params.id;
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
+
+    try {
+        const updatedItem = await product.updateOne({_id: id}, {$set: {category: newCategory.categoryArray}})
+        res.status(200).json(updatedItem)
+    } catch (error) {
+        res.status(400).json({message: error.message})        
+    } 
+}
+
 const DeleteItem = async (req,res) => {
     const id = req.params.id;
 
@@ -198,5 +249,9 @@ module.exports = {
     DeleteItem: DeleteItem,
     GetProduct: GetProduct,
     GetOrder: GetOrder,
-    GetPopularItems: GetPopularItems
+    GetPopularItems: GetPopularItems,
+    GetDashboardOrder: GetDashboardOrder,
+    GetOrderById: GetOrderById,
+    UpdateStatus: UpdateStatus,
+    UpdateCategory: UpdateCategory
 }

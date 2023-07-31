@@ -7,15 +7,14 @@ import { format } from "date-fns";
 const OrderHistory = () => {
   const id = localStorage.getItem("id");
   const [items] = UseFetch(`getorder/${id}`);
-
-  console.log(items);
+  let count = 1;
 
   return (
     <>
       <Header />
       <div className="container mt-5">
         <h1 className="text-center">Your Past Orders</h1>
-        <table className="table mt-5">
+        <table className="table table-striped mt-5">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -31,10 +30,12 @@ const OrderHistory = () => {
           <tbody className="align-middle">
             {items?.map((item, key) => (
               <tr key={item._id}>
-                <th scope="row">1</th>
+                <th scope="row">{count++}</th>
                 <td>
                   {item.itemDetails?.map((itemDetail) => (
-                    <Link to={{ pathname: `/browse/${item.restaurantName}` }}>
+                    <Link
+                      to={{ pathname: `/productdetails/${itemDetail._id}` }}
+                    >
                       <p>{itemDetail.name}</p>
                     </Link>
                   ))}
