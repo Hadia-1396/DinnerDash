@@ -25,7 +25,7 @@ First you need to install all the dependencies provided in the package.json file
 you can install the dependencies with npm
 
 ```bash
-npm install <name>
+npm install 
 ```
 
 ## Run Project
