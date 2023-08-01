@@ -1,5 +1,4 @@
 import  React  from "react";
-import Footer from "../src/Components/Footer/Footer";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import AddRestaurant from "./Page/AddRestaurants/AddRestaurant";
 import AddProduct from "./Page/AddProducts/AddProduct";
@@ -39,7 +38,6 @@ function App() {
           <Route path="/productdetails/:id" element={<ProductDetail/>}/>
           <Route path="/managecategory/:id" element={<ManageCategory/>}/>
         </Routes>
-      <Footer/>
       </BrowserRouter>
     </div>
   );

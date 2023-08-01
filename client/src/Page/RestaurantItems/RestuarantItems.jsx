@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import UseFetch from "../../Hooks/UseFetch";
 import Item from "../../Components/Item/Item";
@@ -34,7 +34,7 @@ const RestuarantItems = () => {
               aria-label="Default select example"
               onChange={(e) => handleCategoryChange(e)}
             >
-              <option selected value="">
+              <option disabled value="" defaultValue="Choose a category">
                 Choose a category
               </option>
               <option value="fast food">fast food</option>
@@ -50,7 +50,7 @@ const RestuarantItems = () => {
           {categorizeItems ? (
             <>
               {categorizeItems?.map((item, key) => (
-                <div className="col-4 gy-5" key={items._id}>
+                <div className="col-4 gy-5" key={item._id}>
                   <Item item={item} product={"products"} />
                 </div>
               ))}
@@ -59,16 +59,16 @@ const RestuarantItems = () => {
             <>
               <div className="row">
                 <h3>Popular Items in Restaurants</h3>
-                {popularItems?.map((item, key) => (
-                  <div className="col-4 gy-5" key={items._id}>
+                {popularItems?.map((item) => (
+                  <div className="col-4 gy-5" key={item._id}>
                     <Item item={item} product={"products"} />
                   </div>
                 ))}
               </div>
               <div className="row mt-5 mb-4">
                 <h3>Items in Restaurants</h3>
-                {items?.map((item, key) => (
-                  <div className="col-4 gy-5" key={items._id}>
+                {items?.map((item) => (
+                  <div className="col-4 gy-5" key={item._id}>
                     <Item item={item} product={"products"} />
                   </div>
                 ))}

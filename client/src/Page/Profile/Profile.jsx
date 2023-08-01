@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../../Components/Header/Header";
 import Item from "../../Components/Item/Item";
 import UseFetch from "../../Hooks/UseFetch";
@@ -31,8 +31,8 @@ const Profile = () => {
           </div>
         </div>
         <div className="row">
-          {items?.map((item, key) => (
-            <div className="col-4 gy-5" key={items._id}>
+          {items?.map((item) => (
+            <div className="col-4 gy-5" key={item._id}>
               <Item item={item} products={"profile"} />
             </div>
           ))}

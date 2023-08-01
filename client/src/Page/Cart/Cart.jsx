@@ -74,11 +74,16 @@ const Cart = () => {
         <div className="row">
           <div className="col-7">
             <h1 className="text-center mt-5">Items in Cart</h1>
-            {data?.map((item) => (
-              <div className="card mt-5 pt-4 pb-4 ps-4 pe-4">
+            {data?.map((item, key) => (
+              <div className="card mt-5 pt-4 pb-4 ps-4 pe-4" key={item._id}>
                 <div className="row">
                   <div className="col-2">
-                    <img src={item.photoURL} width="100%" height="100%" />
+                    <img
+                      src={item.photoURL}
+                      alt="food"
+                      width="100%"
+                      height="100%"
+                    />
                   </div>
                   <div className="col-8">
                     <h4>{item.name}</h4>

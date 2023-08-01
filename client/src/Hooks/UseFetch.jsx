@@ -9,6 +9,7 @@ const UseFetch = (endpoint) => {
       .get(process.env.REACT_APP_BASE_URL + endpoint)
       .then((response) => setItems(response.data))
       .catch((error) => console.log(error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return [items];

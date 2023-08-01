@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import axios from "axios";
+import standAlone from "../../assets/stand-alone.jpg";
 
 const Item = ({ item, product }) => {
   const navigate = useNavigate();
@@ -41,14 +42,24 @@ const Item = ({ item, product }) => {
 
   return (
     <div>
-      {product == "products" ? (
+      {product === "products" ? (
         <>
           <div className="card">
-            <img
-              src={item.photoURL}
-              className="card-img-top"
-              onClick={() => navigate(`/productdetails/${item._id}`)}
-            />
+            {item.photoURL ? (
+              <img
+                src={item.photoURL}
+                alt="food"
+                className="card-img-top"
+                onClick={() => navigate(`/productdetails/${item._id}`)}
+              />
+            ) : (
+              <img
+                src={standAlone}
+                alt="food"
+                className="card-img-top"
+                onClick={() => navigate(`/productdetails/${item._id}`)}
+              />
+            )}
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
               <p className="card-text">{item.description}</p>
@@ -65,13 +76,13 @@ const Item = ({ item, product }) => {
             </div>
           </div>
         </>
-      ) : product == "restaurant" ? (
+      ) : product === "restaurant" ? (
         <>
           <div
             className="card"
             onClick={() => navigate(`/browse/${item.name}`)}
           >
-            <img src={item.photoURL} className="card-img-top" />
+            <img src={item.photoURL} alt="food" className="card-img-top" />
             <div className="card-body">
               <h5 className="card-title">{item.name}</h5>
             </div>
@@ -80,7 +91,21 @@ const Item = ({ item, product }) => {
       ) : (
         <>
           <div className="card">
-            <img src={item.photoURL} className="card-img-top" />
+            {item.photoURL ? (
+              <img
+                src={item.photoURL}
+                alt="food"
+                className="card-img-top"
+                onClick={() => navigate(`/productdetails/${item._id}`)}
+              />
+            ) : (
+              <img
+                src={standAlone}
+                alt="food"
+                className="card-img-top"
+                onClick={() => navigate(`/productdetails/${item._id}`)}
+              />
+            )}
             <div className="card-body mt-2">
               <div className="row justify-content-between">
                 <div className="col-auto">

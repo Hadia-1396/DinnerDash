@@ -37,7 +37,6 @@ const Auth = () => {
           localStorage.setItem("role", response.data.existingUser.role);
           localStorage.setItem("token", response.data.token);
           reset(initialValue);
-          setEmailError("");
           setPasswordError("");
 
           if (role === "customer") {
@@ -47,18 +46,22 @@ const Auth = () => {
           }
         })
         .catch((error) => {
-          if (error.response.status === 400) {
+          if (error.response?.status === 400) {
             setPasswordError(error.response.data.message);
-          } else {
-            setPasswordError("");
           }
-          if (error.response.status === 404) {
-            setEmailError(error.response.data.message);
-          } else {
-            setEmailError("");
+          if (error.response?.status === 404) {
+            setPasswordError(error.response.data.message);
           }
         });
     } else {
+      if (values.displayName === "") {
+        values = {
+          email: values.email,
+          password: values.password,
+          name: values.name,
+          confirmPassword: values.confirmPassword,
+        };
+      }
       axios
         .post(process.env.REACT_APP_BASE_URL + "auth/signup", {
           ...values,
@@ -71,12 +74,12 @@ const Auth = () => {
           setPasswordError("");
         })
         .catch((error) => {
-          if (error.response.status === 402) {
+          if (error.response?.status === 402) {
             setPasswordError(error.response.data.message);
           } else {
             setPasswordError("");
           }
-          if (error.response.status === 401) {
+          if (error.response?.status === 401) {
             setEmailError(error.response.data.message);
           } else {
             setEmailError("");
@@ -119,7 +122,6 @@ const Auth = () => {
               />
               <p className="ms-2 mt-2 warnings">
                 {errors.email && errors.email.message}
-                {!errors.email && emailError}
               </p>
               <input
                 type="password"
@@ -131,8 +133,8 @@ const Auth = () => {
               />
               <p className="ms-2 mt-2 warnings">
                 {errors.password && errors.password.message}
-                {!errors.password && passwordError}
               </p>
+              <p className="ms-2 mt-1 warnings">{passwordError}</p>
               <button type="submit" className="mt-1 login-button">
                 Sign In
               </button>
@@ -166,8 +168,8 @@ const Auth = () => {
                 {...register("displayName", {
                   validate: {
                     range: (v) =>
-                      (v.length > 2 && v.length < 32) ||
-                      v.length == 0 ||
+                      (v.length > 1 && v.length < 32) ||
+                      v.length === 0 ||
                       "Display name should be more than 2 characters and less than 32 characters",
                   },
                 })}

@@ -94,11 +94,15 @@ const OrderDetails = () => {
                 </tr>
               </thead>
               <tbody className="align-middle">
-                {item?.itemDetails?.map((itemDetail, index) => (
-                  <tr>
+                {item?.itemDetails?.map((itemDetail, index, key) => (
+                  <tr key={index}>
                     <th scope="row">{count++}</th>
                     <td>
-                      <Link to={{ pathname: `/browse/${item.restaurantName}` }}>
+                      <Link
+                        to={{
+                          pathname: `/productdetails/${itemDetail._id}`,
+                        }}
+                      >
                         <p>{itemDetail.name}</p>
                       </Link>
                     </td>

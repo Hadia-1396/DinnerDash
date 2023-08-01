@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../../Components/Header/Header";
 import { useParams } from "react-router-dom";
 import UseFetch from "../../Hooks/UseFetch";
@@ -25,14 +25,27 @@ const ManageCategory = () => {
   };
 
   const addCategory = (value) => {
-    items.category.push(value);
+    let isExisted = false;
     const categoryArray = items.category;
+    for (const iterator of categoryArray) {
+      if (iterator === value) {
+        isExisted = true;
+      }
+    }
+    if (!isExisted) {
+      categoryArray.push(value);
+    } else {
+      return;
+    }
 
     axios
       .patch(process.env.REACT_APP_BASE_URL + `updatecategory/${id}`, {
         categoryArray: categoryArray,
       })
-      .then((res) => window.location.reload())
+      .then((res) => {
+        console.log(res);
+        window.location.reload();
+      })
       .catch((err) => console.log(err));
   };
 
@@ -55,9 +68,7 @@ const ManageCategory = () => {
                         aria-label="Default select example"
                         onChange={(e) => addCategory(e.target.value)}
                       >
-                        <option selected value="">
-                          Add a category
-                        </option>
+                        <option>Add a category</option>
                         <option value="fast food">fast food</option>
                         <option value="desi">desi</option>
                         <option value="chinese">chinese</option>
@@ -69,10 +80,10 @@ const ManageCategory = () => {
                   </div>
 
                   <div className="row mb-5">
-                    <h3 className="mt-5 mb-3">Product Categories</h3>
-                    {items?.category.map((item) => (
-                      <div className="col-auto">
-                        <span class="badge bg-secondary p-2 ps-3 pe-2">
+                    <h3 className="mt-5">Product Categories</h3>
+                    {items?.category.map((item, index) => (
+                      <div className="col-auto mt-4" key={index}>
+                        <span className="badge bg-secondary p-2 ps-3 pe-2">
                           {item}{" "}
                           <CloseIcon
                             className="ms-2"

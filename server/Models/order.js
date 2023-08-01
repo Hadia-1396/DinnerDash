@@ -1,19 +1,42 @@
 const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema({
-    name: String,
-    email: String,
-    mobileNumber: String,
-    city: String,
-    address: String,
-    restaurantName: String,
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    mobileNumber: {
+        type: String,
+        required: true
+    },
+    city: {
+        type: String,
+        required: true        
+    },
+    address: {
+        type: String,
+        required: true
+    },
+    restaurantName: {
+        type: String,
+        required: true
+    },
     itemDetails: [{
         type: mongoose.Types.ObjectId,
         ref: 'product'
     }],
     quantity: [Number],
     shipping: Number,
-    status: String,
+    status: {
+        type: String,
+        required: true,
+        enum: ['ordered', 'paid', 'cancelled', 'completed']
+
+    },
     subTotal: Number,
     total: Number,
     createdAt: {
@@ -30,6 +53,7 @@ const orderSchema = mongoose.Schema({
         ref: 'user'
     }
 })
+
 
 const order = mongoose.model("order", orderSchema)
 

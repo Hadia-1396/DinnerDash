@@ -20,11 +20,7 @@ const Dashboard = () => {
   };
 
   const handleStatusChange = (e) => {
-    const arr = items?.filter((item) => {
-      if (item.status === e.target.value) {
-        return item;
-      }
-    });
+    const arr = items?.filter((item) => item.status === e.target.value);
     setStatusItems(arr);
   };
 
@@ -36,12 +32,12 @@ const Dashboard = () => {
         <div className="row justify-content-end">
           <div className="col-auto">
             <select
-              value=""
+              defaultValue="select status"
               className="form-select"
               aria-label="Default select example"
               onChange={(e) => handleStatusChange(e)}
             >
-              <option selected value="">
+              <option value="select status" disabled>
                 Select Status
               </option>
               <option value="ordered">Ordered</option>
@@ -65,12 +61,13 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody className="align-middle">
-                  {statusItems?.map((item, key) => (
+                  {statusItems?.map((item) => (
                     <tr key={item._id}>
                       <th scope="row">{count++}</th>
                       <td>
-                        {item.itemDetails?.map((itemDetail) => (
+                        {item.itemDetails?.map((itemDetail, index) => (
                           <Link
+                            key={index}
                             to={{
                               pathname: `/productdetails/${itemDetail._id}`,
                             }}
@@ -140,12 +137,13 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody className="align-middle">
-                  {items?.map((item, key) => (
+                  {items?.map((item) => (
                     <tr key={item._id}>
                       <th scope="row">{count++}</th>
                       <td>
-                        {item.itemDetails?.map((itemDetail) => (
+                        {item.itemDetails?.map((itemDetail, index) => (
                           <Link
+                            key={index}
                             to={{
                               pathname: `/productdetails/${itemDetail._id}`,
                             }}

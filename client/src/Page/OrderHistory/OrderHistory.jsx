@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../../Components/Header/Header";
 import UseFetch from "../../Hooks/UseFetch";
 import { Link } from "react-router-dom";
@@ -28,12 +28,13 @@ const OrderHistory = () => {
             </tr>
           </thead>
           <tbody className="align-middle">
-            {items?.map((item, key) => (
+            {items?.map((item) => (
               <tr key={item._id}>
                 <th scope="row">{count++}</th>
                 <td>
-                  {item.itemDetails?.map((itemDetail) => (
+                  {item.itemDetails?.map((itemDetail, index) => (
                     <Link
+                      key={index}
                       to={{ pathname: `/productdetails/${itemDetail._id}` }}
                     >
                       <p>{itemDetail.name}</p>
@@ -41,8 +42,8 @@ const OrderHistory = () => {
                   ))}
                 </td>
                 <td>
-                  {item.quantity?.map((quan) => (
-                    <p>{quan}</p>
+                  {item.quantity?.map((quan, index) => (
+                    <p key={index}>{quan}</p>
                   ))}
                 </td>
                 <td>{item.restaurantName}</td>

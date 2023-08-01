@@ -1,56 +1,6 @@
 const product = require('../Models/product')
-const restaurant = require('../Models/restaurant.js')
 const order = require('../Models/order.js');
 const { default: mongoose } = require('mongoose');
-
-const AddRestaurant =  async (req,res) => {
-    const item = req.body;
-    const name = item.name;
-
-    const existingItem = await restaurant.findOne({name})
-
-    if(existingItem) {
-        return res.status(400).json({message: "Restaurant already exists"})
-    }
-
-    const newRestaurant = new restaurant(item);
-
-    try {
-        await newRestaurant.save();
-        res.status(200).json(newRestaurant)
-    } catch (error) {
-        res.status(400).json({message: error.message})
-    }
-}
-
-const GetList =  async (req,res) => {
-    try {
-        const restaurants = await restaurant.find({}).select('name');
-        res.status(200).json(restaurants)
-    } catch (error) {
-        res.status(400).json({message: error.message})
-    }
-}
-
-const GetRestaurants =  async (req,res) => {
-    try {
-        const restaurants = await restaurant.find();
-        res.status(200).json(restaurants)
-    } catch (error) {
-        res.status(400).json({message: error.message})
-    }
-}
-
-const GetShippingFee =  async (req,res) => {
-    const name = req.params.name
-
-    try {
-        const restaurants = await restaurant.findOne({}).select('shippingFee -_id').where('name').eq(name);       
-        res.status(200).json(restaurants)
-    } catch (error) {
-        res.status(400).json({message: error.message})
-    }
-}
 
 
 const GetProducts =  async (req,res) => {
@@ -65,7 +15,6 @@ const GetProducts =  async (req,res) => {
 
 const GetPopularItems =  async (req,res) => {
     const name = req.params.name;
-
     try {
         const count_products = await order.aggregate([
             {
@@ -81,6 +30,7 @@ const GetPopularItems =  async (req,res) => {
                 $limit: 1
             },
         ])
+
         const idArray = count_products.map((item) => {
            return item._id.toString()
         })
@@ -113,40 +63,6 @@ const GetProfile =  async (req,res) => {
     }
 }
 
-const GetOrder =  async (req,res) => {
-    const id = req.params.id;
-    try {
-        const orders = await order.find({userID: id}).populate("itemDetails");
-        res.status(200).json(orders)
-
-    } catch (error) {
-        res.status(400).json({message: error.message})
-    }
-}
-
-const GetOrderById =  async (req,res) => {
-    const id = req.params.id;
-    try {
-        const orders = await order.findById(id).populate("itemDetails");
-        res.status(200).json(orders)
-    } catch (error) {
-        res.status(400).json({message: error.message})
-    }
-}
-
-const GetDashboardOrder =  async (req,res) => {
-    const id = req.params.id;
-    try {
-        const orders = await order.find({}).populate({
-            path: "itemDetails",
-            match: {userID: id}
-        });
-        res.status(200).json(orders)
-    } catch (error) {
-        res.status(400).json({message: error.message})
-    }
-}
-
 const AddItem = async (req,res) => {
     const item = req.body;
     const name = item.name;
@@ -159,18 +75,6 @@ const AddItem = async (req,res) => {
     try {
         await newItem.save();
         res.status(200).json(newItem)
-    } catch (error) {
-        res.status(400).json({message: error.message})        
-    } 
-}
-
-const AddOrder = async (req,res) => {
-    const items = req.body;
-    const newOrder = new order(items);
-
-    try {
-        await newOrder.save();
-        res.status(200).json(newOrder)
     } catch (error) {
         res.status(400).json({message: error.message})        
     } 
@@ -192,20 +96,6 @@ const UpdateItem = async (req,res) => {
 
     try {
         const updatedItem = await product.findByIdAndUpdate(id, item)
-        res.status(200).json(updatedItem)
-    } catch (error) {
-        res.status(400).json({message: error.message})        
-    } 
-}
-
-const UpdateStatus = async (req,res) => {
-    const newStatus = req.body;
-    const id= req.params.id;
-
-    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
-
-    try {
-        const updatedItem = await order.updateOne({_id: id}, {$set: {status: newStatus.newStatus, updatedAt: Date.now()}})
         res.status(200).json(updatedItem)
     } catch (error) {
         res.status(400).json({message: error.message})        
@@ -237,21 +127,12 @@ const DeleteItem = async (req,res) => {
 
 
 module.exports = {
-    AddRestaurant: AddRestaurant,
-    GetList: GetList,
-    AddItem: AddItem,
-    GetRestaurants: GetRestaurants,
-    GetProducts: GetProducts,
-    AddOrder: AddOrder,
-    GetShippingFee: GetShippingFee,
-    GetProfile: GetProfile,
-    UpdateItem: UpdateItem,
-    DeleteItem: DeleteItem,
-    GetProduct: GetProduct,
-    GetOrder: GetOrder,
-    GetPopularItems: GetPopularItems,
-    GetDashboardOrder: GetDashboardOrder,
-    GetOrderById: GetOrderById,
-    UpdateStatus: UpdateStatus,
-    UpdateCategory: UpdateCategory
+    AddItem,
+    GetProducts,
+    GetProfile,
+    UpdateItem,
+    DeleteItem,
+    GetProduct,
+    GetPopularItems,
+    UpdateCategory
 }

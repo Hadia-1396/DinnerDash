@@ -1,0 +1,40 @@
+version: "3.0"
+
+services:
+  server:
+    container_name: dinnerdash-server-container
+    image: dinnerdash-server
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+    ports:
+      - "3001:3001"
+    restart: always
+    environment:
+      - MONGODB_URI=mongodb+srv://hadiashabbir:hadiaSH123@cluster0.hfconul.mongodb.net/?retryWrites=true&w=majority
+    networks:
+      - my-network
+
+  client:
+    container_name: dinnerdash-client-container
+    image: dinnerdash-client
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - ./client:/client
+      - /client/node_modules
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      - server
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

@@ -38,7 +38,6 @@ const AddItem = ({ products, isEdit, id }) => {
       axios
         .get(process.env.REACT_APP_BASE_URL + `getproduct/${id}`)
         .then((response) => {
-          console.log(response);
           setValue("restaurantName", response.data.restaurantName);
           setValue("status", response.data.status);
           setValue("name", response.data.name);
@@ -50,6 +49,7 @@ const AddItem = ({ products, isEdit, id }) => {
       .get(process.env.REACT_APP_BASE_URL + "getlist")
       .then((res) => setRestaurants(res.data))
       .catch((err) => console.log(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function restaurantList() {
@@ -182,17 +182,6 @@ const AddItem = ({ products, isEdit, id }) => {
                 setError("");
               }
             });
-
-          axios
-            .get(process.env.REACT_APP_BASE_URL + "getlist")
-            .then((res) => setRestaurants(res.data))
-            .catch((error) => {
-              if (error.response.status === 400) {
-                setError(error.response.data.message);
-              } else {
-                setError("");
-              }
-            });
         })
         .catch((err) => console.log(err));
     } else {
@@ -204,12 +193,13 @@ const AddItem = ({ products, isEdit, id }) => {
           setError("");
           setImage("");
         })
-        .catch((error) => console.log(error));
-
-      axios
-        .get(process.env.REACT_APP_BASE_URL + "getlist")
-        .then((res) => setRestaurants(res.data))
-        .catch((err) => console.log(err));
+        .catch((error) => {
+          if (error.response.status === 400) {
+            setError(error.response.data.message);
+          } else {
+            setError("");
+          }
+        });
     }
   };
 
@@ -383,7 +373,7 @@ const AddItem = ({ products, isEdit, id }) => {
                   <option value="out-of-stock">Out of Stock</option>
                 </select>
                 <p className="ms-2 mt-2 warnings">
-                  {errors.restaurantName && errors.restaurantName.message}
+                  {errors.status && errors.status.message}
                 </p>
               </div>
             </div>
@@ -442,7 +432,7 @@ const AddItem = ({ products, isEdit, id }) => {
                   {...register("price", {
                     required: "Price is required",
                     pattern: {
-                      value: /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/,
+                      value: /^\d*(\.\d+)?$/,
                       message: "Price should be a decimal number and positive",
                     },
                   })}
@@ -516,7 +506,7 @@ const AddItem = ({ products, isEdit, id }) => {
                   {...register("shippingFee", {
                     required: "Shipping Fee is required",
                     pattern: {
-                      value: /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/,
+                      value: /^\d*(\.\d+)?$/,
                       message: "Price should be a decimal number and positive",
                     },
                   })}
