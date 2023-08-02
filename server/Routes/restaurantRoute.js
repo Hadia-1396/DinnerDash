@@ -5,7 +5,7 @@ const auth = require('../Middleware/auth')
 
 const router = express.Router();
 
-router.post('/addrestaurant',auth.auth, Controllers.AddRestaurant)
+router.post('/addrestaurant',auth.validateToken, Controllers.AddRestaurant)
 router.get('/getrestaurants', Controllers.GetRestaurants)
 router.get('/getlist', Controllers.GetList)
 router.get('/shippingfee/:name', Controllers.GetShippingFee)

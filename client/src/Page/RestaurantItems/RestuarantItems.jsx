@@ -57,22 +57,18 @@ const RestuarantItems = () => {
             </>
           ) : (
             <>
-              <div className="row">
-                <h3>Popular Items in Restaurants</h3>
-                {popularItems?.map((item) => (
-                  <div className="col-4 gy-5" key={item._id}>
-                    <Item item={item} product={"products"} />
-                  </div>
-                ))}
-              </div>
-              <div className="row mt-5 mb-4">
-                <h3>Items in Restaurants</h3>
-                {items?.map((item) => (
-                  <div className="col-4 gy-5" key={item._id}>
-                    <Item item={item} product={"products"} />
-                  </div>
-                ))}
-              </div>
+              <h3>Popular Items in Restaurants</h3>
+              {popularItems?.map((item) => (
+                <div className="col-4 gy-4" key={item._id}>
+                  <Item item={item} product={"products"} />
+                </div>
+              ))}
+              <h3>Items in Restaurants</h3>
+              {items?.map((item) => (
+                <div className="col-4 gy-4" key={item._id}>
+                  <Item item={item} product={"products"} />
+                </div>
+              ))}
             </>
           )}
         </div>

@@ -5,9 +5,9 @@ const auth = require('../Middleware/auth')
 
 const router = express.Router();
 
-router.post('/addorder',auth.auth, Controllers.AddOrder)
-router.get('/getorder/:id',auth.auth, Controllers.GetOrder)
-router.get('/getdashboardorder/:id',auth.auth, Controllers.GetDashboardOrder)
-router.get('/getorderbyid/:id',auth.auth, Controllers.GetOrderById)
-router.patch('/updatestatus/:id',auth.auth, Controllers.UpdateStatus)
+router.post('/addorder',auth.validateToken, Controllers.AddOrder)
+router.get('/getorder/:id',auth.validateToken, Controllers.GetOrder)
+router.get('/getdashboardorder/:id',auth.validateToken, Controllers.GetDashboardOrder)
+router.get('/getorderbyid/:id',auth.validateToken, Controllers.GetOrderById)
+router.patch('/updatestatus/:id',auth.validateToken, Controllers.UpdateStatus)
 module.exports = router
