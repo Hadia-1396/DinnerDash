@@ -5,6 +5,8 @@ const AddRestaurant =  async (req,res) => {
     const item = req.body;
     const name = item.name;
 
+    if(!req.authToken) return res.status(400).json({message: "Unauthenticated"}) 
+
     const existingItem = await restaurant.findOne({name})
 
     if(existingItem) {

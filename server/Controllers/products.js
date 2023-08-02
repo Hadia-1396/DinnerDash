@@ -55,6 +55,7 @@ const GetProduct =  async (req,res) => {
 
 const GetProfile =  async (req,res) => {
     const id = req.params.id;
+    if(!req.authToken) return res.status(400).json({message: "Unauthenticated"}) 
     try {
         const products = await product.find({userID: id});
         res.status(200).json(products)
@@ -67,6 +68,8 @@ const AddItem = async (req,res) => {
     const item = req.body;
     const name = item.name;
     const existingItem = await product.findOne({name}).where('restaurantName').eq(item.restaurantName)
+
+    if(!req.authToken) return res.status(400).json({message: "Unauthenticated"}) 
 
     if(existingItem) {
         return res.status(400).json({message: "Product already exists"})
@@ -85,6 +88,7 @@ const UpdateItem = async (req,res) => {
     const name = item.name
     const id= req.params.id;
 
+    if(!req.authToken) return res.status(400).json({message: "Unauthenticated"}) 
 
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
 
@@ -105,6 +109,8 @@ const UpdateItem = async (req,res) => {
 const UpdateCategory = async (req,res) => {
     const newCategory = req.body;
     const id= req.params.id;
+
+    if(!req.authToken) return res.status(400).json({message: "Unauthenticated"}) 
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
 
     try {
@@ -118,6 +124,7 @@ const UpdateCategory = async (req,res) => {
 const DeleteItem = async (req,res) => {
     const id = req.params.id;
 
+    if(!req.authToken) return res.status(400).json({message: "Unauthenticated"}) 
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
 
     await product.findByIdAndRemove(id);

@@ -7,6 +7,10 @@ import standAlone from "../../assets/stand-alone.jpg";
 
 const Item = ({ item, product }) => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
   const addToCart = () => {
     let isExisted = false;
@@ -35,7 +39,9 @@ const Item = ({ item, product }) => {
 
   const deleteProduct = (id) => {
     axios
-      .delete(process.env.REACT_APP_BASE_URL + `deleteitem/${id}`)
+      .delete(process.env.REACT_APP_BASE_URL + `deleteitem/${id}`, {
+        headers: headers,
+      })
       .then((res) => window.location.reload())
       .catch((err) => console.log(err.message));
   };

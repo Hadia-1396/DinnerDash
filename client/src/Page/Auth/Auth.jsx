@@ -30,8 +30,11 @@ const Auth = () => {
   const submit = (values) => {
     if (login) {
       axios
-        .post(process.env.REACT_APP_BASE_URL + `auth/signin/${role}`, values)
+        .post(process.env.REACT_APP_BASE_URL + `auth/signin/${role}`, values, {
+          withCredentials: true,
+        })
         .then((response) => {
+          console.log(response);
           localStorage.setItem("id", response.data.existingUser._id);
           localStorage.setItem("name", response.data.existingUser.name);
           localStorage.setItem("role", response.data.existingUser.role);

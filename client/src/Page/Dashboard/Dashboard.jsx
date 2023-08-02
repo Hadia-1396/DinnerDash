@@ -10,11 +10,20 @@ const Dashboard = () => {
   const [statusItems, setStatusItems] = useState();
   let count = 1;
 
+  const token = localStorage.getItem("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
   const changeStatus = (newStatus, _id) => {
     axios
-      .patch(process.env.REACT_APP_BASE_URL + `updatestatus/${_id}`, {
-        newStatus: newStatus,
-      })
+      .patch(
+        process.env.REACT_APP_BASE_URL + `updatestatus/${_id}`,
+        {
+          newStatus: newStatus,
+        },
+        { headers: headers }
+      )
       .then((res) => window.location.reload())
       .catch((err) => console.log(err));
   };

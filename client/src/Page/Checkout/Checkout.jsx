@@ -12,6 +12,11 @@ const Checkout = () => {
   const [shippingFee, setShippingFee] = useState();
   const id = localStorage.getItem("id");
 
+  const token = localStorage.getItem("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
   const {
     register,
     handleSubmit,
@@ -60,7 +65,9 @@ const Checkout = () => {
       restaurantName: restaurantName,
     };
     axios
-      .post(process.env.REACT_APP_BASE_URL + "addorder", orderData)
+      .post(process.env.REACT_APP_BASE_URL + "addorder", orderData, {
+        headers: headers,
+      })
       .then((response) => {
         console.log(response);
         navigate("/");
