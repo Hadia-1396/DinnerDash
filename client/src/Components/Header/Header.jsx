@@ -21,7 +21,9 @@ const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <a className="navbar-brand brandname ms-4">DinnerDash</a>
+        <Link to="/" className="navbar-brand brandname ms-4">
+          DinnerDash
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -41,7 +43,7 @@ const Header = () => {
             <>
               <ul className="navbar-nav navbar-items">
                 <li className="nav-item">
-                  <Link className="nav-link active" to="/">
+                  <Link className="nav-link active" to="/dashboard">
                     Dashboard
                   </Link>
                 </li>
@@ -57,27 +59,7 @@ const Header = () => {
                 </li>
               </ul>
             </>
-          ) : (
-            <>
-              <ul className="navbar-nav navbar-items">
-                <li className="nav-item">
-                  <Link className="nav-link active" to="/">
-                    Home
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/browse">
-                    Browse
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/contact">
-                    Contact
-                  </Link>
-                </li>
-              </ul>
-            </>
-          )}
+          ) : null}
         </div>
         {role === "customer" && (
           <>

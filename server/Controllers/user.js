@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const user = require('../Models/user')
 
-const AddUser =  async (req,res) => {
+const Signup =  async (req,res) => {
     const {name, email, password, confirmPassword, displayName, role} = req.body;
     
     try {
@@ -28,7 +28,7 @@ const AddUser =  async (req,res) => {
     }
 }
 
-const GetUser = async (req,res) => {
+const Login = async (req,res) => {
     const {email, password} = req.body;
     const role = req.params.role
 
@@ -36,13 +36,13 @@ const GetUser = async (req,res) => {
         const existingUser = await user.findOne({email}).where('role').eq(role);
 
         if(!existingUser) {
-            return res.status(404).json({message: "User does not exists"})
+            return res.status(404).json({message: "Incorrect Credentials"})
         }
 
         const checkPassword = await bcrypt.compare(password, existingUser.password);
 
         if(!checkPassword) {
-            return res.status(400).json({message: "Your password is incorrect"})
+            return res.status(400).json({message: "Incorrect Credentials"})
         }
 
         const token = jwt.sign({email: existingUser, id: existingUser._id, role: existingUser.role}, 'test')
@@ -55,6 +55,6 @@ const GetUser = async (req,res) => {
 }
 
 module.exports = {
-    AddUser: AddUser,
-    GetUser, GetUser
+    Signup,
+    Login
 }

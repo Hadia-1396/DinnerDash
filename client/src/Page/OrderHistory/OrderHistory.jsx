@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Header from "../../Components/Header/Header";
 import UseFetch from "../../Hooks/UseFetch";
 import { Link } from "react-router-dom";
@@ -7,15 +7,14 @@ import { format } from "date-fns";
 const OrderHistory = () => {
   const id = localStorage.getItem("id");
   const [items] = UseFetch(`getorder/${id}`);
-
-  console.log(items);
+  let count = 1;
 
   return (
     <>
       <Header />
       <div className="container mt-5">
         <h1 className="text-center">Your Past Orders</h1>
-        <table className="table mt-5">
+        <table className="table table-striped mt-5">
           <thead>
             <tr>
               <th scope="col">#</th>
@@ -29,19 +28,22 @@ const OrderHistory = () => {
             </tr>
           </thead>
           <tbody className="align-middle">
-            {items?.map((item, key) => (
+            {items?.map((item) => (
               <tr key={item._id}>
-                <th scope="row">1</th>
+                <th scope="row">{count++}</th>
                 <td>
-                  {item.itemDetails?.map((itemDetail) => (
-                    <Link to={{ pathname: `/browse/${item.restaurantName}` }}>
+                  {item.itemDetails?.map((itemDetail, index) => (
+                    <Link
+                      key={index}
+                      to={{ pathname: `/productdetails/${itemDetail._id}` }}
+                    >
                       <p>{itemDetail.name}</p>
                     </Link>
                   ))}
                 </td>
                 <td>
-                  {item.quantity?.map((quan) => (
-                    <p>{quan}</p>
+                  {item.quantity?.map((quan, index) => (
+                    <p key={index}>{quan}</p>
                   ))}
                 </td>
                 <td>{item.restaurantName}</td>

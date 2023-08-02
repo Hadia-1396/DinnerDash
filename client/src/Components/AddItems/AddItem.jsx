@@ -10,21 +10,34 @@ const AddItem = ({ products, isEdit, id }) => {
     register,
     formState: { errors },
     setValue,
+    reset,
   } = useForm();
 
   const [image, setImage] = useState("");
-  const [url, setUrl] = useState("");
   const [restaurants, setRestaurants] = useState([]);
   const [error, setError] = useState();
 
   const userID = localStorage.getItem("id");
+
+  const restaurantInitialValue = {
+    name: "",
+    shippingFee: "",
+  };
+
+  const productInitialValue = {
+    category: "",
+    restaurantName: "",
+    status: "",
+    name: "",
+    description: "",
+    price: "",
+  };
 
   useEffect(() => {
     if (isEdit) {
       axios
         .get(process.env.REACT_APP_BASE_URL + `getproduct/${id}`)
         .then((response) => {
-          console.log(response);
           setValue("restaurantName", response.data.restaurantName);
           setValue("status", response.data.status);
           setValue("name", response.data.name);
@@ -36,6 +49,7 @@ const AddItem = ({ products, isEdit, id }) => {
       .get(process.env.REACT_APP_BASE_URL + "getlist")
       .then((res) => setRestaurants(res.data))
       .catch((err) => console.log(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function restaurantList() {
@@ -69,7 +83,10 @@ const AddItem = ({ products, isEdit, id }) => {
                 photoURL: data.url,
                 userID: userID,
               })
-              .then((response) => console.log(response))
+              .then((response) => {
+                console.log(response);
+                reset(productInitialValue);
+              })
               .catch((error) => {
                 if (error.response.status === 400) {
                   setError(error.response.data.message);
@@ -84,7 +101,10 @@ const AddItem = ({ products, isEdit, id }) => {
                 photoURL: data.url,
                 userID: userID,
               })
-              .then((response) => console.log(response))
+              .then((response) => {
+                console.log(response);
+                reset(productInitialValue);
+              })
               .catch((error) => {
                 if (error.response.status === 400) {
                   setError(error.response.data.message);
@@ -102,7 +122,10 @@ const AddItem = ({ products, isEdit, id }) => {
             ...values,
             userID: userID,
           })
-          .then((response) => console.log(response))
+          .then((response) => {
+            console.log(response);
+            reset(productInitialValue);
+          })
           .catch((error) => {
             if (error.response.status === 400) {
               setError(error.response.data.message);
@@ -116,7 +139,10 @@ const AddItem = ({ products, isEdit, id }) => {
             ...values,
             userID: userID,
           })
-          .then((response) => console.log(response))
+          .then((response) => {
+            console.log(response);
+            reset(productInitialValue);
+          })
           .catch((error) => {
             if (error.response.status === 400) {
               setError(error.response.data.message);
@@ -143,18 +169,12 @@ const AddItem = ({ products, isEdit, id }) => {
           values = Object.assign({ photoURL: data.url }, values);
           axios
             .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values)
-            .then((response) => console.log(response))
-            .catch((error) => {
-              if (error.response.status === 400) {
-                setError(error.response.data.message);
-              } else {
-                setError("");
-              }
-            });
-
-          axios
-            .get(process.env.REACT_APP_BASE_URL + "getlist")
-            .then((res) => setRestaurants(res.data))
+            .then((response) => {
+              console.log(response);
+              reset(restaurantInitialValue);
+              setError("");
+              setImage("");
+            })
             .catch((error) => {
               if (error.response.status === 400) {
                 setError(error.response.data.message);
@@ -167,13 +187,19 @@ const AddItem = ({ products, isEdit, id }) => {
     } else {
       axios
         .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values)
-        .then((response) => console.log(response))
-        .catch((error) => console.log(error));
-
-      axios
-        .get(process.env.REACT_APP_BASE_URL + "getlist")
-        .then((res) => setRestaurants(res.data))
-        .catch((err) => console.log(err));
+        .then((response) => {
+          console.log(response);
+          reset(restaurantInitialValue);
+          setError("");
+          setImage("");
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            setError(error.response.data.message);
+          } else {
+            setError("");
+          }
+        });
     }
   };
 
@@ -185,120 +211,122 @@ const AddItem = ({ products, isEdit, id }) => {
             {isEdit ? (
               <h2 className="text-center">Edit Item</h2>
             ) : (
-              <h2 className="text-center">Add Item</h2>
+              <>
+                <h2 className="text-center">Add Item</h2>
+
+                <div className="row justify-content-center mt-4 align-items-center">
+                  <div className="col-2">
+                    <label htmlFor="restaurant" className="form-label">
+                      Choose Category
+                    </label>
+                  </div>
+                  <div className="col-6">
+                    <div className="row mt-2">
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="fast food"
+                          id="flexCheckDefault"
+                          {...register("category")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          Fast Food
+                        </label>
+                      </div>
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="desi"
+                          id="flexCheckDefault"
+                          {...register("category")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          Desi
+                        </label>
+                      </div>
+                    </div>
+                    <div className="row mt-2">
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="chinese"
+                          id="flexCheckDefault"
+                          {...register("category")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          Chinese
+                        </label>
+                      </div>
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="startups"
+                          id="flexCheckDefault"
+                          {...register("category")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          startups
+                        </label>
+                      </div>
+                    </div>
+                    <div className="row mt-2">
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="small plate"
+                          id="flexCheckDefault"
+                          {...register("category")}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          small plate
+                        </label>
+                      </div>
+                      <div className="col-5 form-check">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          value="large plate"
+                          id="flexCheckDefault"
+                          {...register("category", {
+                            required: "Please select atleast one category",
+                          })}
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
+                          large plate
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="ms-2 mt-2 warnings">
+                    {errors.category && errors.category.message}
+                  </p>
+                </div>
+              </>
             )}
-
-            <div className="row justify-content-center mt-4 align-items-center">
-              <div className="col-2">
-                <label htmlFor="restaurant" className="form-label">
-                  Choose Category
-                </label>
-              </div>
-              <div className="col-6">
-                <div className="row mt-2">
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="fast food"
-                      id="flexCheckDefault"
-                      {...register("category")}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Fast Food
-                    </label>
-                  </div>
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="desi"
-                      id="flexCheckDefault"
-                      {...register("category")}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Desi
-                    </label>
-                  </div>
-                </div>
-                <div className="row mt-2">
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="chinese"
-                      id="flexCheckDefault"
-                      {...register("category")}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Chinese
-                    </label>
-                  </div>
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="startups"
-                      id="flexCheckDefault"
-                      {...register("category")}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      startups
-                    </label>
-                  </div>
-                </div>
-                <div className="row mt-2">
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="small plate"
-                      id="flexCheckDefault"
-                      {...register("category")}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      small plate
-                    </label>
-                  </div>
-                  <div className="col-5 form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value="large plate"
-                      id="flexCheckDefault"
-                      {...register("category", {
-                        required: "Please select atleast one category",
-                      })}
-                    />
-                    <label
-                      className="form-check-label"
-                      htmlFor="flexCheckDefault"
-                    >
-                      large plate
-                    </label>
-                  </div>
-                </div>
-              </div>
-
-              <p className="ms-2 mt-2 warnings">
-                {errors.category && errors.category.message}
-              </p>
-            </div>
 
             <div className="row justify-content-center mt-4 align-items-center">
               <div className="col-2">
@@ -345,7 +373,7 @@ const AddItem = ({ products, isEdit, id }) => {
                   <option value="out-of-stock">Out of Stock</option>
                 </select>
                 <p className="ms-2 mt-2 warnings">
-                  {errors.restaurantName && errors.restaurantName.message}
+                  {errors.status && errors.status.message}
                 </p>
               </div>
             </div>
@@ -404,7 +432,7 @@ const AddItem = ({ products, isEdit, id }) => {
                   {...register("price", {
                     required: "Price is required",
                     pattern: {
-                      value: /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/,
+                      value: /^\d*(\.\d+)?$/,
                       message: "Price should be a decimal number and positive",
                     },
                   })}
@@ -478,14 +506,13 @@ const AddItem = ({ products, isEdit, id }) => {
                   {...register("shippingFee", {
                     required: "Shipping Fee is required",
                     pattern: {
-                      value: /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/,
+                      value: /^\d*(\.\d+)?$/,
                       message: "Price should be a decimal number and positive",
                     },
                   })}
                 />
                 <p className="ms-2 mt-2 warnings">
                   {errors.shippingFee && errors.shippingFee.message}
-                  {!errors.shippingFee && error}
                 </p>
               </div>
             </div>

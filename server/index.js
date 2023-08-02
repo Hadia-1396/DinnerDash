@@ -12,9 +12,10 @@ app.get('/', (req, res) => {
     res.send('Server is live');
 })
 
+
 app.use('/', productRouter);
 app.use('/auth', userRouter);
 
-mongoose.connect('mongodb://localhost:27017/dinnerdash')
-.then(() => app.listen(3000, () => console.log("port is listening at 3000")))
+mongoose.connect('mongodb://hadiashabbir:hadiaSH123@ac-itur0ka-shard-00-00.hfconul.mongodb.net:27017,ac-itur0ka-shard-00-01.hfconul.mongodb.net:27017,ac-itur0ka-shard-00-02.hfconul.mongodb.net:27017/?ssl=true&replicaSet=atlas-ey0g41-shard-0&authSource=admin&retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true})
+.then(() => app.listen(3001, () => console.log("port is listening at 3001")))
 .catch((error) => console.log(error.message))

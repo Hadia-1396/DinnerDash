@@ -1,10 +1,18 @@
 const mongoose = require('mongoose')
 
 const restaurantSchema = mongoose.Schema({
-    name: String,
-    shippingFee: Number,
+    name: {
+        type: String,
+        required: true,
+        index: {unique: true}
+    },
+    shippingFee: {
+        type: Number,
+        required: true
+    },
     photoURL: String
 })
+
 
 const restaurant = mongoose.model("restaurant", restaurantSchema)
 

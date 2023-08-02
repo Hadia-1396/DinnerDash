@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header from "../../Components/Header/Header";
 
 const Checkout = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState();
   const [subTotal, setSubTotal] = useState();
   const restaurantName = localStorage.getItem("restaurantName");
@@ -22,10 +24,12 @@ const Checkout = () => {
     axios
       .get(process.env.REACT_APP_BASE_URL + `shippingfee/${restaurantName}`)
       .then((res) => setShippingFee(res.data.shippingFee));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     calculateSubTotal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   const calculateSubTotal = () => {
@@ -57,12 +61,16 @@ const Checkout = () => {
     };
     axios
       .post(process.env.REACT_APP_BASE_URL + "addorder", orderData)
-      .then((response) => console.log(response))
+      .then((response) => {
+        console.log(response);
+        navigate("/");
+      })
       .catch((error) => console.log(error.message));
   };
 
   const clearCart = () => {
     localStorage.removeItem("cartData");
+    localStorage.removeItem("restaurantName");
   };
 
   return (
@@ -74,7 +82,7 @@ const Checkout = () => {
           <div className="row">
             <div className="col-4">
               <div className="mb-3">
-                <label for="name" className="form-label">
+                <label htmlFor="name" className="form-label">
                   Name
                 </label>
                 <input
@@ -93,7 +101,7 @@ const Checkout = () => {
 
             <div className="col-4">
               <div className="mb-3">
-                <label for="email" className="form-label">
+                <label htmlFor="email" className="form-label">
                   Email
                 </label>
                 <input
@@ -113,7 +121,7 @@ const Checkout = () => {
           <div className="row">
             <div className="col-4">
               <div className="mb-3">
-                <label for="number" className="form-label">
+                <label htmlFor="number" className="form-label">
                   Mobile Number
                 </label>
                 <input
@@ -132,7 +140,7 @@ const Checkout = () => {
 
             <div className="col-4">
               <div className="mb-3">
-                <label for="city" className="form-label">
+                <label htmlFor="city" className="form-label">
                   City
                 </label>
                 <input
@@ -152,7 +160,7 @@ const Checkout = () => {
           <div className="row">
             <div className="col-8">
               <div className="mb-3">
-                <label for="adress" className="form-label">
+                <label htmlFor="adress" className="form-label">
                   Address
                 </label>
                 <input
@@ -177,10 +185,10 @@ const Checkout = () => {
                   <tr>
                     <th scope="col">Name</th>
                     <th scope="col" className="text-center">
-                      quantity
+                      Quantity
                     </th>
                     <th scope="col" className="text-center">
-                      price
+                      Price
                     </th>
                     <th scope="col" className="text-end">
                       Total price
@@ -188,8 +196,8 @@ const Checkout = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data?.map((item) => (
-                    <tr>
+                  {data?.map((item, key) => (
+                    <tr key={item._id}>
                       <td>{item.name}</td>
                       <td className="text-center">{item.quantity}</td>
                       <td className="text-center">{item.price}</td>

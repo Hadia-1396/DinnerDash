@@ -1,6 +1,4 @@
 import  React  from "react";
-import Footer from "../src/Components/Footer/Footer";
-import Home from "../src/Page/Home/Home";
 import { BrowserRouter, Route, Routes} from "react-router-dom";
 import AddRestaurant from "./Page/AddRestaurants/AddRestaurant";
 import AddProduct from "./Page/AddProducts/AddProduct";
@@ -13,15 +11,18 @@ import Error from "./Page/Error/Error";
 import UserRole from "./Page/UserRole/UserRole";
 import Profile from "./Page/Profile/Profile";
 import OrderHistory from "./Page/OrderHistory/OrderHistory";
+import Dashboard from "./Page/Dashboard/Dashboard";
+import OrderDetails from "./Page/OrderDetail/OrderDetails";
+import ProductDetail from "./Page/ProductDetail/ProductDetail";
+import ManageCategory from "./Page/ManageCategory/ManageCategory";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />}/>
-          <Route path="/dashboard" element={<Home />}/>
-          <Route path="/browse" element={<Browse />}/>
+          <Route path="/" element={<Browse />}/>
+          <Route path="/dashboard" element={<Dashboard />}/>
           <Route path="/browse/:name" element={<RestuarantItems />}/>
           <Route path="/addrestaurant" element={<AddRestaurant/>}/>
           <Route path="/addproduct" element={<AddProduct/>}/>
@@ -33,8 +34,10 @@ function App() {
           <Route path="/errorpage" element={<Error/>}/>
           <Route path="/profile" element={<Profile/>}/>
           <Route path="/orderhistory" element={<OrderHistory/>}/>
+          <Route path="/orderdetails/:id" element={<OrderDetails/>}/>
+          <Route path="/productdetails/:id" element={<ProductDetail/>}/>
+          <Route path="/managecategory/:id" element={<ManageCategory/>}/>
         </Routes>
-      <Footer/>
       </BrowserRouter>
     </div>
   );
