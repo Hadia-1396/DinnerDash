@@ -19,6 +19,11 @@ const AddItem = ({ products, isEdit, id }) => {
 
   const userID = localStorage.getItem("id");
 
+  const token = localStorage.getItem("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
   const restaurantInitialValue = {
     name: "",
     shippingFee: "",
@@ -78,11 +83,17 @@ const AddItem = ({ products, isEdit, id }) => {
         .then((data) => {
           if (isEdit) {
             axios
-              .patch(process.env.REACT_APP_BASE_URL + `updateitem/${id}`, {
-                ...values,
-                photoURL: data.url,
-                userID: userID,
-              })
+              .patch(
+                process.env.REACT_APP_BASE_URL + `updateitem/${id}`,
+                {
+                  ...values,
+                  photoURL: data.url,
+                  userID: userID,
+                },
+                {
+                  headers: headers,
+                }
+              )
               .then((response) => {
                 console.log(response);
                 reset(productInitialValue);
@@ -96,11 +107,17 @@ const AddItem = ({ products, isEdit, id }) => {
               });
           } else {
             axios
-              .post(process.env.REACT_APP_BASE_URL + "additem", {
-                ...values,
-                photoURL: data.url,
-                userID: userID,
-              })
+              .post(
+                process.env.REACT_APP_BASE_URL + "additem",
+                {
+                  ...values,
+                  photoURL: data.url,
+                  userID: userID,
+                },
+                {
+                  headers: headers,
+                }
+              )
               .then((response) => {
                 console.log(response);
                 reset(productInitialValue);
@@ -118,10 +135,16 @@ const AddItem = ({ products, isEdit, id }) => {
     } else {
       if (isEdit) {
         axios
-          .post(process.env.REACT_APP_BASE_URL + `updateitem/${id}`, {
-            ...values,
-            userID: userID,
-          })
+          .patch(
+            process.env.REACT_APP_BASE_URL + `updateitem/${id}`,
+            {
+              ...values,
+              userID: userID,
+            },
+            {
+              headers: headers,
+            }
+          )
           .then((response) => {
             console.log(response);
             reset(productInitialValue);
@@ -135,10 +158,14 @@ const AddItem = ({ products, isEdit, id }) => {
           });
       } else {
         axios
-          .post(process.env.REACT_APP_BASE_URL + "additem", {
-            ...values,
-            userID: userID,
-          })
+          .post(
+            process.env.REACT_APP_BASE_URL + "additem",
+            {
+              ...values,
+              userID: userID,
+            },
+            { headers: headers }
+          )
           .then((response) => {
             console.log(response);
             reset(productInitialValue);
@@ -168,7 +195,9 @@ const AddItem = ({ products, isEdit, id }) => {
         .then((data) => {
           values = Object.assign({ photoURL: data.url }, values);
           axios
-            .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values)
+            .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values, {
+              headers: headers,
+            })
             .then((response) => {
               console.log(response);
               reset(restaurantInitialValue);
@@ -186,7 +215,9 @@ const AddItem = ({ products, isEdit, id }) => {
         .catch((err) => console.log(err));
     } else {
       axios
-        .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values)
+        .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values, {
+          headers: headers,
+        })
         .then((response) => {
           console.log(response);
           reset(restaurantInitialValue);

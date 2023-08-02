@@ -10,6 +10,10 @@ import "./style.css";
 const ManageCategory = () => {
   const { id } = useParams();
   const [items] = UseFetch(`getproduct/${id}`);
+  const token = localStorage.getItem("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
   const removeCategory = (newCategory) => {
     const categoryArray = items.category.filter((item) => {
@@ -17,9 +21,13 @@ const ManageCategory = () => {
     });
 
     axios
-      .patch(process.env.REACT_APP_BASE_URL + `updatecategory/${id}`, {
-        categoryArray: categoryArray,
-      })
+      .patch(
+        process.env.REACT_APP_BASE_URL + `updatecategory/${id}`,
+        {
+          categoryArray: categoryArray,
+        },
+        { headers: headers }
+      )
       .then((res) => window.location.reload())
       .catch((err) => console.log(err));
   };
@@ -39,9 +47,15 @@ const ManageCategory = () => {
     }
 
     axios
-      .patch(process.env.REACT_APP_BASE_URL + `updatecategory/${id}`, {
-        categoryArray: categoryArray,
-      })
+      .patch(
+        process.env.REACT_APP_BASE_URL + `updatecategory/${id}`,
+        {
+          categoryArray: categoryArray,
+        },
+        {
+          headers: headers,
+        }
+      )
       .then((res) => {
         console.log(res);
         window.location.reload();

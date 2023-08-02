@@ -3,6 +3,9 @@ const order = require('../Models/order.js');
 
 const GetOrder =  async (req,res) => {
     const id = req.params.id;
+    
+    if(!req.authToken) return res.status(400).json({message: "Unauthenticated"}) 
+
     try {
         const orders = await order.find({userID: id}).populate("itemDetails");
         res.status(200).json(orders)
@@ -14,6 +17,9 @@ const GetOrder =  async (req,res) => {
 
 const GetOrderById =  async (req,res) => {
     const id = req.params.id;
+
+    if(!req.authToken) return res.status(400).json({message: "Unauthenticated"}) 
+
     try {
         const orders = await order.findById(id).populate("itemDetails");
         res.status(200).json(orders)
@@ -24,6 +30,8 @@ const GetOrderById =  async (req,res) => {
 
 const GetDashboardOrder =  async (req,res) => {
     const id = req.params.id;
+
+    if(!req.authToken) return res.status(400).json({message: "Unauthenticated"}) 
     try {
         const orders = await order.find({}).populate({
             path: "itemDetails",
@@ -46,6 +54,8 @@ const AddOrder = async (req,res) => {
     const items = req.body;
     const newOrder = new order(items);
 
+    if(!req.authToken) return res.status(400).json({message: "Unauthenticated"}) 
+
     try {
         await newOrder.save();
         res.status(200).json(newOrder)
@@ -58,6 +68,7 @@ const UpdateStatus = async (req,res) => {
     const newStatus = req.body;
     const id= req.params.id;
 
+    if(!req.authToken) return res.status(400).json({message: "Unauthenticated"}) 
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
 
     try {
