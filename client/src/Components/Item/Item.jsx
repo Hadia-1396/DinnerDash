@@ -5,7 +5,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import axios from "axios";
 import standAlone from "../../assets/stand-alone.jpg";
 
-const Item = ({ item, product }) => {
+const Item = ({ item, product, fetchData }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const headers = {
@@ -39,10 +39,10 @@ const Item = ({ item, product }) => {
 
   const deleteProduct = (id) => {
     axios
-      .delete(process.env.REACT_APP_BASE_URL + `deleteitem/${id}`, {
+      .delete(process.env.REACT_APP_BASE_URL + `products/${id}`, {
         headers: headers,
       })
-      .then((res) => window.location.reload())
+      .then((res) => fetchData())
       .catch((err) => console.log(err.message));
   };
 

@@ -7,7 +7,7 @@ import { format } from "date-fns";
 const OrderDetails = () => {
   const { id } = useParams();
   let count = 1;
-  const [item] = UseFetch(`getorderbyid/${id}`);
+  const [item] = UseFetch(`orders/getbyid/${id}`);
 
   return (
     <>

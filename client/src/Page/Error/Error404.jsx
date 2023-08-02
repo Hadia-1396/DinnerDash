@@ -1,16 +1,14 @@
 import React from "react";
 import Header from "../../Components/Header/Header";
 
-const Error = () => {
+const Error404 = () => {
   return (
     <>
-      <Header />
       <div className="container text-center mt-5">
-        <h1>You are not logged in!</h1>
-        <p className="mt-5">Please log in to checkout</p>
+        <h1>No page found with this URL</h1>
       </div>
     </>
   );
 };
 
-export default Error;
+export default Error404;

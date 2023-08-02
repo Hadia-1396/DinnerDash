@@ -41,8 +41,9 @@ const AddItem = ({ products, isEdit, id }) => {
   useEffect(() => {
     if (isEdit) {
       axios
-        .get(process.env.REACT_APP_BASE_URL + `getproduct/${id}`)
+        .get(process.env.REACT_APP_BASE_URL + `products/${id}`)
         .then((response) => {
+          console.log(response);
           setValue("restaurantName", response.data.restaurantName);
           setValue("status", response.data.status);
           setValue("name", response.data.name);
@@ -51,7 +52,7 @@ const AddItem = ({ products, isEdit, id }) => {
         });
     }
     axios
-      .get(process.env.REACT_APP_BASE_URL + "getlist")
+      .get(process.env.REACT_APP_BASE_URL + "restaurants/list")
       .then((res) => setRestaurants(res.data))
       .catch((err) => console.log(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -84,7 +85,7 @@ const AddItem = ({ products, isEdit, id }) => {
           if (isEdit) {
             axios
               .patch(
-                process.env.REACT_APP_BASE_URL + `updateitem/${id}`,
+                process.env.REACT_APP_BASE_URL + `products/update/${id}`,
                 {
                   ...values,
                   photoURL: data.url,
@@ -108,7 +109,7 @@ const AddItem = ({ products, isEdit, id }) => {
           } else {
             axios
               .post(
-                process.env.REACT_APP_BASE_URL + "additem",
+                process.env.REACT_APP_BASE_URL + "products",
                 {
                   ...values,
                   photoURL: data.url,
@@ -136,7 +137,7 @@ const AddItem = ({ products, isEdit, id }) => {
       if (isEdit) {
         axios
           .patch(
-            process.env.REACT_APP_BASE_URL + `updateitem/${id}`,
+            process.env.REACT_APP_BASE_URL + `products/update/${id}`,
             {
               ...values,
               userID: userID,
@@ -159,7 +160,7 @@ const AddItem = ({ products, isEdit, id }) => {
       } else {
         axios
           .post(
-            process.env.REACT_APP_BASE_URL + "additem",
+            process.env.REACT_APP_BASE_URL + "products",
             {
               ...values,
               userID: userID,
@@ -195,7 +196,7 @@ const AddItem = ({ products, isEdit, id }) => {
         .then((data) => {
           values = Object.assign({ photoURL: data.url }, values);
           axios
-            .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values, {
+            .post(process.env.REACT_APP_BASE_URL + "restaurants", values, {
               headers: headers,
             })
             .then((response) => {
@@ -215,7 +216,7 @@ const AddItem = ({ products, isEdit, id }) => {
         .catch((err) => console.log(err));
     } else {
       axios
-        .post(process.env.REACT_APP_BASE_URL + "addrestaurant", values, {
+        .post(process.env.REACT_APP_BASE_URL + "restaurants", values, {
           headers: headers,
         })
         .then((response) => {

@@ -21,10 +21,10 @@ app.get('/', (req, res) => {
 })
 
 
-app.use('/', productRouter);
+app.use('/products', productRouter);
 app.use('/auth', userRouter);
-app.use('/', orderRoute);
-app.use('/', restaurantRoute);
+app.use('/orders', orderRoute);
+app.use('/restaurants', restaurantRoute);
 
 mongoose.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => app.listen(3001, () => console.log("port is listening at 3001")))
