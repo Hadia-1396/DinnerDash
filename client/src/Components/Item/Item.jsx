@@ -56,14 +56,14 @@ const Item = ({ item, product, fetchData }) => {
                 src={item.photoURL}
                 alt="food"
                 className="card-img-top"
-                onClick={() => navigate(`/productdetails/${item._id}`)}
+                onClick={() => navigate(`/productdetail/${item._id}`)}
               />
             ) : (
               <img
                 src={standAlone}
                 alt="food"
                 className="card-img-top"
-                onClick={() => navigate(`/productdetails/${item._id}`)}
+                onClick={() => navigate(`/productdetail/${item._id}`)}
               />
             )}
             <div className="card-body">

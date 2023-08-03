@@ -22,7 +22,7 @@ const ManageCategory = () => {
 
     axios
       .patch(
-        process.env.REACT_APP_BASE_URL + `products/${id}`,
+        process.env.REACT_APP_BASE_URL + `products/category/${id}`,
         {
           categoryArray: categoryArray,
         },
@@ -48,7 +48,7 @@ const ManageCategory = () => {
 
     axios
       .patch(
-        process.env.REACT_APP_BASE_URL + `products/${id}`,
+        process.env.REACT_APP_BASE_URL + `products/category/${id}`,
         {
           categoryArray: categoryArray,
         },

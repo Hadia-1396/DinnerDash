@@ -3,18 +3,9 @@ const order = require('../Models/order.js');
 const { default: mongoose } = require('mongoose');
 
 
-const GetProducts =  async (req,res) => {
-    const name = req.params.name;
-    try {
-        const products = await product.find().where('restaurantName').eq(name);
-        res.status(200).json(products)
-    } catch (error) {
-        res.status(400).json({message: error.message})
-    }
-}
-
 const GetPopularItems =  async (req,res) => {
-    const name = req.params.name;
+    const name = req.query.name;
+
     try {
         const count_products = await order.aggregate([
             {
@@ -42,6 +33,18 @@ const GetPopularItems =  async (req,res) => {
         res.status(400).json({message: error.message})
     }
 }
+
+
+const GetProducts =  async (req,res) => {
+    const name = req.query.name;
+    try {
+        const products = await product.find().where('restaurantName').eq(name);
+        res.status(200).json(products)
+    } catch (error) {
+        res.status(400).json({message: error.message})
+    }
+}
+
 
 const GetProduct =  async (req,res) => {
     const id = req.params.id
@@ -134,6 +137,6 @@ module.exports = {
     UpdateItem,
     DeleteItem,
     GetProduct,
+    UpdateCategory,
     GetPopularItems,
-    UpdateCategory
 }

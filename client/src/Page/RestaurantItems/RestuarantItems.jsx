@@ -6,8 +6,8 @@ import Header from "../../Components/Header/Header";
 
 const RestuarantItems = () => {
   const { name } = useParams();
-  let [items] = UseFetch(`products/all/${name}`);
-  let [popularItems] = UseFetch(`products/popular/${name}`);
+  let [items] = UseFetch(`products/all?name=${name}`);
+  let [popularItems] = UseFetch(`orders/popular?name=${name}`);
   const [categorizeItems, setCategorizeItems] = useState();
 
   const handleCategoryChange = (e) => {

@@ -1,7 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose');
 const cors = require('cors')
-const cookieParser = require("cookie-parser")
 require("dotenv").config();
 const productRouter = require('../server/Routes/productRoute')
 const userRouter = require('../server/Routes/userRoute')
@@ -10,11 +9,7 @@ const restaurantRoute = require('../server/Routes/restaurantRoute');
 const app = express();
 
 app.use(express.json({limit: '50mb'}));
-app.use(cors({
-    origin: 'http://localhost:3000',
-    credentials: true 
-}));
-app.use(cookieParser())
+app.use(cors());
 
 app.get('/', (req, res) => {
     res.send('Server is live');
