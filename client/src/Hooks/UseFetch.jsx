@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 const UseFetch = (endpoint) => {
   const [items, setItems] = useState();
@@ -8,17 +8,21 @@ const UseFetch = (endpoint) => {
     Authorization: `Bearer ${token}`,
   };
 
-  useEffect(() => {
+  const fetchData = useCallback(() => {
     axios
       .get(process.env.REACT_APP_BASE_URL + endpoint, {
         headers: headers,
       })
       .then((response) => setItems(response.data))
       .catch((error) => console.log(error));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [endpoint]);
 
-  return [items];
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchData]);
+
+  return [items, fetchData];
 };
 
 export default UseFetch;

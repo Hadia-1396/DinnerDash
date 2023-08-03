@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const navigate = useNavigate();
   const id = localStorage.getItem("id");
-  const [items] = UseFetch(`getprofile/${id}`);
+  const [items, fetchData] = UseFetch(`products/profile/${id}`);
 
   return (
     <>
@@ -33,7 +33,7 @@ const Profile = () => {
         <div className="row">
           {items?.map((item) => (
             <div className="col-4 gy-5" key={item._id}>
-              <Item item={item} products={"profile"} />
+              <Item item={item} products={"profile"} fetchData={fetchData} />
             </div>
           ))}
         </div>

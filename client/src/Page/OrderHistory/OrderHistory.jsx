@@ -6,7 +6,7 @@ import { format } from "date-fns";
 
 const OrderHistory = () => {
   const id = localStorage.getItem("id");
-  const [items] = UseFetch(`getorder/${id}`);
+  const [items] = UseFetch(`orders/${id}`);
   let count = 1;
 
   return (

@@ -27,7 +27,7 @@ const Checkout = () => {
     setData(JSON.parse(localStorage.getItem("cartData")));
 
     axios
-      .get(process.env.REACT_APP_BASE_URL + `shippingfee/${restaurantName}`)
+      .get(process.env.REACT_APP_BASE_URL + `restaurants/${restaurantName}`)
       .then((res) => setShippingFee(res.data.shippingFee));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -65,7 +65,7 @@ const Checkout = () => {
       restaurantName: restaurantName,
     };
     axios
-      .post(process.env.REACT_APP_BASE_URL + "addorder", orderData, {
+      .post(process.env.REACT_APP_BASE_URL + "orders", orderData, {
         headers: headers,
       })
       .then((response) => {

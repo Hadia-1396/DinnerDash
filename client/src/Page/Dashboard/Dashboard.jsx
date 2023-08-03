@@ -6,7 +6,7 @@ import axios from "axios";
 
 const Dashboard = () => {
   const id = localStorage.getItem("id");
-  const [items] = UseFetch(`getdashboardorder/${id}`);
+  const [items, fetchData] = UseFetch(`orders/all/${id}`);
   const [statusItems, setStatusItems] = useState();
   let count = 1;
 
@@ -18,13 +18,13 @@ const Dashboard = () => {
   const changeStatus = (newStatus, _id) => {
     axios
       .patch(
-        process.env.REACT_APP_BASE_URL + `updatestatus/${_id}`,
+        process.env.REACT_APP_BASE_URL + `orders/${_id}`,
         {
           newStatus: newStatus,
         },
         { headers: headers }
       )
-      .then((res) => window.location.reload())
+      .then((res) => fetchData())
       .catch((err) => console.log(err));
   };
 

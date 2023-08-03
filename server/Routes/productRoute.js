@@ -4,12 +4,12 @@ const auth = require('../Middleware/auth')
 
 const router = express.Router();
 
-router.post('/additem',auth.auth, Controllers.AddItem)
-router.get('/getProducts/:name', Controllers.GetProducts)
-router.get('/getprofile/:id', auth.auth,Controllers.GetProfile)
-router.get('/getproduct/:id', Controllers.GetProduct)
-router.get('/getpopularitems/:name', Controllers.GetPopularItems)
-router.patch('/updateitem/:id',auth.auth, Controllers.UpdateItem)
-router.patch('/updatecategory/:id',auth.auth, Controllers.UpdateCategory)
-router.delete('/deleteitem/:id',auth.auth, Controllers.DeleteItem)
+router.post('/',auth.validateToken, Controllers.AddItem)
+router.get('/all/:name', Controllers.GetProducts)
+router.get('/profile/:id', auth.validateToken,Controllers.GetProfile)
+router.get('/:id', Controllers.GetProduct)
+router.get('/popular/:name', Controllers.GetPopularItems)
+router.patch('/update/:id',auth.validateToken, Controllers.UpdateItem)
+router.patch('/:id',auth.validateToken, Controllers.UpdateCategory)
+router.delete('/:id',auth.validateToken, Controllers.DeleteItem)
 module.exports = router

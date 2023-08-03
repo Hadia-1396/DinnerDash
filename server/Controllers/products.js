@@ -92,12 +92,6 @@ const UpdateItem = async (req,res) => {
 
     if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).json({message: `No post with ${id} exists`})
 
-    const existingItem = await product.findOne({name}).where('restaurantName').eq(item.restaurantName)
-
-    if(existingItem) {
-        return res.status(400).json({message: "Product already exists"})
-    }
-
     try {
         const updatedItem = await product.findByIdAndUpdate(id, item)
         res.status(200).json(updatedItem)

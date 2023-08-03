@@ -2,7 +2,7 @@ import Item from "../../Components/Item/Item";
 import UseFetch from "../../Hooks/UseFetch";
 import Header from "../../Components/Header/Header";
 const Browse = () => {
-  const [items] = UseFetch("getrestaurants");
+  const [items] = UseFetch("restaurants");
   return (
     <>
       <Header />

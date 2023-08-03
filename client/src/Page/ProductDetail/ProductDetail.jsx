@@ -6,7 +6,7 @@ import standAlone from "../../assets/stand-alone.jpg";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const [item] = UseFetch(`getproduct/${id}`);
+  const [item] = UseFetch(`products/${id}`);
   const role = localStorage.getItem("role");
 
   const addToCart = () => {

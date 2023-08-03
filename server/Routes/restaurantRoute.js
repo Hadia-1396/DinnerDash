@@ -5,8 +5,8 @@ const auth = require('../Middleware/auth')
 
 const router = express.Router();
 
-router.post('/addrestaurant',auth.auth, Controllers.AddRestaurant)
-router.get('/getrestaurants', Controllers.GetRestaurants)
-router.get('/getlist', Controllers.GetList)
-router.get('/shippingfee/:name', Controllers.GetShippingFee)
+router.post('/',auth.validateToken, Controllers.AddRestaurant)
+router.get('/', Controllers.GetRestaurants)
+router.get('/list', Controllers.GetList)
+router.get('/:name', Controllers.GetShippingFee)
 module.exports = router

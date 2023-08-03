@@ -9,7 +9,7 @@ import "./style.css";
 
 const ManageCategory = () => {
   const { id } = useParams();
-  const [items] = UseFetch(`getproduct/${id}`);
+  const [items, fetchData] = UseFetch(`products/${id}`);
   const token = localStorage.getItem("token");
   const headers = {
     Authorization: `Bearer ${token}`,
@@ -22,13 +22,13 @@ const ManageCategory = () => {
 
     axios
       .patch(
-        process.env.REACT_APP_BASE_URL + `updatecategory/${id}`,
+        process.env.REACT_APP_BASE_URL + `products/${id}`,
         {
           categoryArray: categoryArray,
         },
         { headers: headers }
       )
-      .then((res) => window.location.reload())
+      .then((res) => fetchData())
       .catch((err) => console.log(err));
   };
 
@@ -48,7 +48,7 @@ const ManageCategory = () => {
 
     axios
       .patch(
-        process.env.REACT_APP_BASE_URL + `updatecategory/${id}`,
+        process.env.REACT_APP_BASE_URL + `products/${id}`,
         {
           categoryArray: categoryArray,
         },
@@ -58,7 +58,7 @@ const ManageCategory = () => {
       )
       .then((res) => {
         console.log(res);
-        window.location.reload();
+        fetchData();
       })
       .catch((err) => console.log(err));
   };
