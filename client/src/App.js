@@ -7,7 +7,7 @@ import RestuarantItems from "./Page/RestaurantItems/RestuarantItems";
 import Cart from "./Page/Cart/Cart";
 import Checkout from "./Page/Checkout/Checkout";
 import Auth from "./Page/Auth/Auth";
-import Error from "./Page/Error/Error404";
+import UnauthorizedError from "./Components/UnauthorizedError/UnauthorizedError";
 import UserRole from "./Page/UserRole/UserRole";
 import Profile from "./Page/Profile/Profile";
 import OrderHistory from "./Page/OrderHistory/OrderHistory";
@@ -18,28 +18,35 @@ import ManageCategory from "./Page/ManageCategory/ManageCategory";
 import Error404 from "./Page/Error/Error404";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 
+const userRole = {
+  admin: 'admin',
+  customer: 'customer'
+} 
+
 function App() {
+
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/auth/:role" element={<Auth/>}/>
-          <Route path="/auth" element={<UserRole/>}/>
-            <Route path="/dashboard" element={<ProtectedRoute Component={Dashboard} role="admin"/>}></Route>
-            <Route path="/addproduct/:id" element={<ProtectedRoute Component={AddProduct} role="admin"/>}/>
-            <Route path="/addrestaurant" element={<ProtectedRoute Component={AddRestaurant} role="admin"/>}/>
-            <Route path="/addproduct" element={<ProtectedRoute Component={AddProduct} role="admin"/>}/>
-            <Route path="/profile" element={<ProtectedRoute Component={Profile} role="admin"/>}/>
-            <Route path="/productdetails/:id" element={<ProtectedRoute Component={ProductDetail} role="admin"/>}/>
-            <Route path="/managecategory/:id" element={<ProtectedRoute Component={ManageCategory} role="admin"/>}/>
+          <Route path="/auth" element={<Auth/>}/>
+          <Route path="/" element={<UserRole/>}/>
+            <Route path="/dashboard" element={<ProtectedRoute Component={Dashboard} role={userRole.admin} unauthorizedAccess={false}/>}></Route>
+            <Route path="/addproduct/:id" element={<ProtectedRoute Component={AddProduct} role={userRole.admin} unauthorizedAccess={false}/>}/>
+            <Route path="/addrestaurant" element={<ProtectedRoute Component={AddRestaurant} role={userRole.admin} unauthorizedAccess={false}/>}/>
+            <Route path="/addproduct" element={<ProtectedRoute Component={AddProduct} role={userRole.admin} unauthorizedAccess={false}/>}/>
+            <Route path="/profile" element={<ProtectedRoute Component={Profile} role={userRole.admin} unauthorizedAccess={false}/>}/>
+            <Route path="/productdetails/:id" element={<ProtectedRoute Component={ProductDetail} role={userRole.admin} unauthorizedAccess={false}/>}/>
+            <Route path="/managecategory/:id" element={<ProtectedRoute Component={ManageCategory} role={userRole.admin} unauthorizedAccess={false}/>}/>
+            <Route path="/orderdetails/:id" element={<ProtectedRoute Component={OrderDetails} role={userRole.admin} unauthorizedAccess={false}/>}/>
             
-            <Route path="/" element={<ProtectedRoute Component={Browse} role="customer"/>}/>
-            <Route path="/browse/:name" element={<ProtectedRoute Component={RestuarantItems} role="customer"/>}/>
-            <Route path="/cart" element={<ProtectedRoute Component={Cart} role="customer"/>}/>
-            <Route path="/checkout" element={<ProtectedRoute Component={Checkout} role="customer"/>}/>
-            <Route path="/orderhistory" element={<ProtectedRoute Component={OrderHistory} role="customer"/>}/>
-            <Route path="/orderdetails/:id" element={<ProtectedRoute Component={OrderDetails} role="customer"/>}/>
-            <Route path="/productdetails/:id" element={<ProtectedRoute Component={ProductDetail} role="customer"/>}/>
+            <Route path="/home" element={<ProtectedRoute Component={Browse} role={userRole.customer} unauthorizedAccess={true}/>}/>
+            <Route path="/browse/:name" element={<ProtectedRoute Component={RestuarantItems} role={userRole.customer} unauthorizedAccess={true}/>}/>
+            <Route path="/cart" element={<ProtectedRoute Component={Cart} role={userRole.customer} unauthorizedAccess={true}/>}/>
+            <Route path="/checkout" element={<ProtectedRoute Component={Checkout} role={userRole.customer} unauthorizedAccess={false}/>}/>
+            <Route path="/orderhistory" element={<ProtectedRoute Component={OrderHistory} role={userRole.customer} unauthorizedAccess={true}/>}/>
+            <Route path="/productdetails/:id" element={<ProtectedRoute Component={ProductDetail} role={userRole.customer} unauthorizedAccess={false}/>}/>
+            <Route path="/errorpage" element={<UnauthorizedError/>}/>
             <Route path="*" element={<Error404/>}/>
         </Routes>
       </BrowserRouter>

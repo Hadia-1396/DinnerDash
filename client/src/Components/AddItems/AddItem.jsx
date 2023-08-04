@@ -4,6 +4,20 @@ import { useForm } from "react-hook-form";
 
 import "./style.css";
 
+const restaurantInitialValue = {
+  name: "",
+  shippingFee: "",
+};
+
+const productInitialValue = {
+  category: "",
+  restaurantName: "",
+  status: "",
+  name: "",
+  description: "",
+  price: "",
+};
+
 const AddItem = ({ products, isEdit, id }) => {
   const {
     handleSubmit,
@@ -22,20 +36,6 @@ const AddItem = ({ products, isEdit, id }) => {
   const token = localStorage.getItem("token");
   const headers = {
     Authorization: `Bearer ${token}`,
-  };
-
-  const restaurantInitialValue = {
-    name: "",
-    shippingFee: "",
-  };
-
-  const productInitialValue = {
-    category: "",
-    restaurantName: "",
-    status: "",
-    name: "",
-    description: "",
-    price: "",
   };
 
   useEffect(() => {
@@ -59,15 +59,12 @@ const AddItem = ({ products, isEdit, id }) => {
   }, []);
 
   function restaurantList() {
-    let items = [];
-    for (const restaurant of restaurants) {
-      items.push(
-        <option key={restaurant._id} value={restaurant.name}>
-          {restaurant.name}
-        </option>
-      );
-    }
-    return items;
+    const restaurantList = restaurants.map((restaurant) => (
+      <option key={restaurant._id} value={restaurant.name}>
+        {restaurant.name}
+      </option>
+    ));
+    return restaurantList;
   }
 
   const onSubmit = (values) => {
@@ -85,7 +82,7 @@ const AddItem = ({ products, isEdit, id }) => {
           if (isEdit) {
             axios
               .patch(
-                process.env.REACT_APP_BASE_URL + `products/update/${id}`,
+                process.env.REACT_APP_BASE_URL + `products/item/${id}`,
                 {
                   ...values,
                   photoURL: data.url,
@@ -137,7 +134,7 @@ const AddItem = ({ products, isEdit, id }) => {
       if (isEdit) {
         axios
           .patch(
-            process.env.REACT_APP_BASE_URL + `products/update/${id}`,
+            process.env.REACT_APP_BASE_URL + `products/item/${id}`,
             {
               ...values,
               userID: userID,

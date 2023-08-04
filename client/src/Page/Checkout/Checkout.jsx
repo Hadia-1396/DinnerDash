@@ -70,7 +70,8 @@ const Checkout = () => {
       })
       .then((response) => {
         console.log(response);
-        navigate("/");
+        clearCart();
+        navigate("/home");
       })
       .catch((error) => console.log(error.message));
   };
@@ -117,6 +118,10 @@ const Checkout = () => {
                   id="email"
                   {...register("email", {
                     required: "Email is required",
+                    pattern: {
+                      value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                      message: "Email not in format",
+                    },
                   })}
                 />
                 <p className="ms-2 mt-2 warnings">
@@ -137,6 +142,10 @@ const Checkout = () => {
                   id="number"
                   {...register("mobileNumber", {
                     required: "Phone Number is required",
+                    pattern: {
+                      value: /^(0\d{3}[- ]?)?\d{7}$/,
+                      message: "Number format is not correct",
+                    },
                   })}
                 />
                 <p className="ms-2 mt-2 warnings">
@@ -240,11 +249,7 @@ const Checkout = () => {
               </div>
               <div className="row justify-content-end mt-4">
                 <div className="col-auto">
-                  <button
-                    type="submit"
-                    className="button-style"
-                    onClick={clearCart}
-                  >
+                  <button type="submit" className="button-style">
                     Place Order
                   </button>
                 </div>

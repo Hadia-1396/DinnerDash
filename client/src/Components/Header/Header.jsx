@@ -15,13 +15,13 @@ const Header = () => {
     localStorage.removeItem("id");
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    navigate("/auth");
+    navigate("/");
   };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link to="/" className="navbar-brand brandname ms-4">
+        <Link to="/home" className="navbar-brand brandname ms-4">
           DinnerDash
         </Link>
         <button

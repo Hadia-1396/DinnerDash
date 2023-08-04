@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const UserRole = () => {
@@ -12,7 +12,13 @@ const UserRole = () => {
           <button
             type="button"
             className="button-style"
-            onClick={() => navigate("/auth/admin")}
+            onClick={() => {
+              localStorage.removeItem("id");
+              localStorage.removeItem("token");
+              localStorage.removeItem("name");
+              localStorage.setItem("role", "admin");
+              navigate("/auth");
+            }}
           >
             Admin
           </button>
@@ -20,7 +26,13 @@ const UserRole = () => {
         <div className="col-auto">
           <button
             className="button-style"
-            onClick={() => navigate("/auth/customer")}
+            onClick={() => {
+              localStorage.removeItem("id");
+              localStorage.removeItem("token");
+              localStorage.removeItem("name");
+              localStorage.setItem("role", "customer");
+              navigate("/home");
+            }}
           >
             Customer
           </button>
